@@ -1,4 +1,4 @@
-using ZoomRoom.Domain.Requestes;
+using ZoomRoom.Domain.Requests;
 using ZoomRoom.Domain.Responses;
 
 namespace ZoomRoom.Services.Interfaces
