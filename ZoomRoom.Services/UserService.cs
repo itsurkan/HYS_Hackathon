@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
 
-namespace ZoomRoom.Services.PersistenceServices.Impl;
+namespace ZoomRoom.Services;
 
-public class UserService(SqliteDbContext context) :IUserService
+public class UserService(SqliteDbContext context)
 {
     public async Task<User> CreateUserAsync(User user)
     {
