@@ -4,7 +4,7 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Services.PersistenceServices.Impl;
 
-public class UserService(SqliteDbContext context)
+public class UserService(SqliteDbContext context) : IUserService
 {
     public async Task<User> CreateUserAsync(User user)
     {

@@ -4,7 +4,7 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Services.PersistenceServices.Impl;
 
-public class MeetingService(SqliteDbContext context)
+public class MeetingService(SqliteDbContext context) : IMeetingService
 {
     public async Task<Meeting> CreateMeetingAsync(Meeting meeting)
     {
