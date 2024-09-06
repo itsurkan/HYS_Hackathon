@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
 
-namespace ZoomRoom.Services.PersistenceServices.Impl;
+namespace ZoomRoom.Services;
 
-public class MeetingService(SqliteDbContext context) : IMeetingService
+public class MeetingService(SqliteDbContext context)
 {
     public async Task<Meeting> CreateMeetingAsync(Meeting meeting)
     {
