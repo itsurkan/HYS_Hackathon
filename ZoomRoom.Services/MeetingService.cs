@@ -1,4 +1,3 @@
-using CMB.Persistence;
 using Microsoft.EntityFrameworkCore;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
@@ -7,21 +6,21 @@ namespace ZoomRoom.Services;
 
 public class MeetingService(SqliteDbContext context)
 {
-    public async Task<Meeting> CreateMeeting(Meeting meeting)
+    public async Task<Meeting> CreateMeetingAsync(Meeting meeting)
     {
         context.Meetings.Add(meeting);
         await context.SaveChangesAsync();
         return meeting;
     }
 
-    public async Task<Meeting> UpdateMeeting(Meeting meeting)
+    public async Task<Meeting> UpdateMeetingAsync(Meeting meeting)
     {
         context.Meetings.Update(meeting);
         await context.SaveChangesAsync();
         return meeting;
     }
 
-    public async Task DeleteMeeting(int meetingId)
+    public async Task DeleteMeetingAsync(int meetingId)
     {
         var meeting = await context.Meetings.FindAsync(meetingId);
         if (meeting != null)
@@ -31,12 +30,12 @@ public class MeetingService(SqliteDbContext context)
         }
     }
 
-    public async Task<Meeting?> GetMeetingById(int meetingId)
+    public async Task<Meeting?> GetMeetingByIdAsync(int meetingId)
     {
         return await context.Meetings.FindAsync(meetingId);
     }
 
-    public async Task<List<Meeting>> GetAllMeetings()
+    public async Task<List<Meeting>> GetAllMeetingsAsync()
     {
         return await context.Meetings.ToListAsync();
     }

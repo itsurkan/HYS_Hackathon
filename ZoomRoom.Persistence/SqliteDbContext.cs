@@ -8,6 +8,7 @@ namespace ZoomRoom.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
+
         public DbSet<RoomUser> RoomUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
