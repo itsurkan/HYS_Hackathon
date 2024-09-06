@@ -1,32 +1,22 @@
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
-using ZoomRoom.Domain.Requestes;
+using ZoomRoom.Domain.Requests;
 using ZoomRoom.Domain.Responses;
 using ZoomRoom.Services.Interfaces;
 
 namespace ZoomRoom.Services.Services;
-public class ZoomService : IZoomService
+public class ZoomService(string clientId, string clientSecret, string accountId) : IZoomService
 {
     private readonly HttpClient _httpClient = new HttpClient();
-    private readonly string _clientId;
-    private readonly string _clientSecret;
-    private readonly string _accountId;
-
-    public ZoomService(string clientId, string clientSecret, string accountId)
-    {
-        _clientId = clientId;
-        _clientSecret = clientSecret;
-        _accountId = accountId;
-    }
 
 
     public async Task<string> GetAccessTokenAsync()
     {
-        var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}"));
+        var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authHeaderValue);
 
-        var response = await _httpClient.PostAsync($"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={_accountId}", null);
+        var response = await _httpClient.PostAsync($"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={accountId}", null);
 
         var result = await response.Content.ReadAsStringAsync();
         response.EnsureSuccessStatusCode();
@@ -111,4 +101,3 @@ public class ZoomService : IZoomService
     }
 
 }
-
