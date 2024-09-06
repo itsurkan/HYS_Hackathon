@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
 
-namespace ZoomRoom.Services;
+namespace ZoomRoom.Services.PersistenceServices.Impl;
 
-public class RoomService(SqliteDbContext context)
+public class RoomService(SqliteDbContext context) : IRoomService
 {
     public async Task<Room> CreateRoomAsync(Room room)
     {
