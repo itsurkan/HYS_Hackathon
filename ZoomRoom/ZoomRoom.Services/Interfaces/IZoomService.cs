@@ -1,7 +1,7 @@
 using ZoomRoom.Domain.Requestes;
 using ZoomRoom.Domain.Responses;
 
-namespace ZoomRoom.ZoomService
+namespace ZoomRoom.Services.Interfaces
 {
     public interface IZoomService
     {

@@ -8,7 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Hackathon.Domain\ZoomRoom.Domain.csproj" />
       <ProjectReference Include="..\ZoomRoom.Persistence\ZoomRoom.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Interfaces\" />
     </ItemGroup>
 
 </Project>

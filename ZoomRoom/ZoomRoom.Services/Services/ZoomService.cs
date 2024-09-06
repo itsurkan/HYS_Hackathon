@@ -3,8 +3,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using ZoomRoom.Domain.Requestes;
 using ZoomRoom.Domain.Responses;
-using ZoomRoom.ZoomService;
+using ZoomRoom.Services.Interfaces;
 
+namespace ZoomRoom.Services.Services;
 public class ZoomService : IZoomService
 {
     private readonly HttpClient _httpClient = new HttpClient();
