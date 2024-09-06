@@ -44,19 +44,19 @@ public class MeetingTimezoneState : State
 
         if (answer is null || answer == "")
         {
-            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Часовий пояс зустрічі не може бути пустим ");
+            await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Часовий пояс зустрічі не може бути пустим ");
             _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
         }
         else
         {
-            _telegramBotContext.meetingData.timezone = answer;
+            _telegramBotContext.meetingData.Timezone = answer;
             _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
         }
     }
 
     public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
     {
-        _telegramBotContext.meetingData.timezone = callbackQuery.Data;
+        _telegramBotContext!.meetingData.Timezone = callbackQuery.Data;
         _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
 
         await _telegramBotContext.botClient.AnswerCallbackQueryAsync(callbackQuery.Id);
