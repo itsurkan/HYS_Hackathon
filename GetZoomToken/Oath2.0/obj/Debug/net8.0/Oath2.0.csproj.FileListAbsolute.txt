@@ -1,0 +1,14 @@
+D:\Source\Oath2.0\Oath2.0\bin\Debug\net8.0\Oath2.0.exe
+D:\Source\Oath2.0\Oath2.0\bin\Debug\net8.0\Oath2.0.deps.json
+D:\Source\Oath2.0\Oath2.0\bin\Debug\net8.0\Oath2.0.runtimeconfig.json
+D:\Source\Oath2.0\Oath2.0\bin\Debug\net8.0\Oath2.0.dll
+D:\Source\Oath2.0\Oath2.0\bin\Debug\net8.0\Oath2.0.pdb
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\Oath2.0.GeneratedMSBuildEditorConfig.editorconfig
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\Oath2.0.AssemblyInfoInputs.cache
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\Oath2.0.AssemblyInfo.cs
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\Oath2.0.csproj.CoreCompileInputs.cache
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\Oath2.0.dll
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\refint\Oath2.0.dll
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\Oath2.0.pdb
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\Oath2.0.genruntimeconfig.cache
+D:\Source\Oath2.0\Oath2.0\obj\Debug\net8.0\ref\Oath2.0.dll
