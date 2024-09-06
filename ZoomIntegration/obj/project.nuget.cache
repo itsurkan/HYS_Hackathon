@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Pt4EoOsN/ahVS6m6CDtEUb+UQx7/wl74xozX4pjWf3sdNYCyJP8g69mKiymTaBeuCWvrPOnJRFo5yH9whG//Jg==",
+  "success": true,
+  "projectFilePath": "D:\\Desktop\\Hackaton\\Telegram.Bot.Examples\\ZoomIntegration\\ZoomIntegration.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ivan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
