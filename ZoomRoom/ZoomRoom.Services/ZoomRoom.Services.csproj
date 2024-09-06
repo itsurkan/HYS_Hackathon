@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Hackathon.Domain\ZoomRoom.Domain.csproj" />
+      <ProjectReference Include="..\ZoomRoom.Domain\ZoomRoom.Domain.csproj" />
       <ProjectReference Include="..\ZoomRoom.Persistence\ZoomRoom.Persistence.csproj" />
     </ItemGroup>
 
