@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution-items", ".solution-items", "{3D5CB47A-4E71-43A2-A330-422313298728}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Persistence", "ZoomRoom.Persistence\ZoomRoom.Persistence.csproj", "{907DD9A7-42DF-48FF-9757-FF80A56DF49D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Services", "ZoomRoom.Services\ZoomRoom.Services.csproj", "{2A25596A-A103-46B9-9717-AAE127A6438D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Domain", "Hackathon.Domain\ZoomRoom.Domain.csproj", "{395AFDAB-2412-4982-842D-069418008B12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Auth", "ZoomAuth\ZoomRoom.Auth.csproj", "{A6483F28-ABBA-43F1-B3AA-1CB18F993E44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.ZoomService", "ZoomIntegration\ZoomRoom.ZoomService.csproj", "{76F292D9-D050-4D3E-A869-4342CE5B8005}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{907DD9A7-42DF-48FF-9757-FF80A56DF49D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{907DD9A7-42DF-48FF-9757-FF80A56DF49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{907DD9A7-42DF-48FF-9757-FF80A56DF49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{907DD9A7-42DF-48FF-9757-FF80A56DF49D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A25596A-A103-46B9-9717-AAE127A6438D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A25596A-A103-46B9-9717-AAE127A6438D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A25596A-A103-46B9-9717-AAE127A6438D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A25596A-A103-46B9-9717-AAE127A6438D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{395AFDAB-2412-4982-842D-069418008B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{395AFDAB-2412-4982-842D-069418008B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{395AFDAB-2412-4982-842D-069418008B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{395AFDAB-2412-4982-842D-069418008B12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6483F28-ABBA-43F1-B3AA-1CB18F993E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6483F28-ABBA-43F1-B3AA-1CB18F993E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6483F28-ABBA-43F1-B3AA-1CB18F993E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6483F28-ABBA-43F1-B3AA-1CB18F993E44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76F292D9-D050-4D3E-A869-4342CE5B8005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F292D9-D050-4D3E-A869-4342CE5B8005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F292D9-D050-4D3E-A869-4342CE5B8005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F292D9-D050-4D3E-A869-4342CE5B8005}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
