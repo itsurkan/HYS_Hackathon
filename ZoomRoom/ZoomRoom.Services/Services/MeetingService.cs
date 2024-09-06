@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
 
-namespace ZoomRoom.Services;
+namespace ZoomRoom.Services.Services;
 
 public class MeetingService(SqliteDbContext context)
 {

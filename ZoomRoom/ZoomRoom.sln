@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution-items", ".solution-items", "{3D5CB47A-4E71-43A2-A330-422313298728}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -7,9 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution-items", ".solutio
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomRoom.Persistence", "ZoomRoom.Persistence\ZoomRoom.Persistence.csproj", "{907DD9A7-42DF-48FF-9757-FF80A56DF49D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Persistence", "ZoomRoom.Persistence\ZoomRoom.Persistence.csproj", "{907DD9A7-42DF-48FF-9757-FF80A56DF49D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomRoom.Services", "ZoomRoom.Services\ZoomRoom.Services.csproj", "{2A25596A-A103-46B9-9717-AAE127A6438D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Services", "ZoomRoom.Services\ZoomRoom.Services.csproj", "{2A25596A-A103-46B9-9717-AAE127A6438D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Domain", "ZoomRoom.Domain\ZoomRoom.Domain.csproj", "{E28BF6B8-E775-4833-8A68-37F9D367232A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,7 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-
 		{907DD9A7-42DF-48FF-9757-FF80A56DF49D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{907DD9A7-42DF-48FF-9757-FF80A56DF49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{907DD9A7-42DF-48FF-9757-FF80A56DF49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -26,5 +30,15 @@ Global
 		{2A25596A-A103-46B9-9717-AAE127A6438D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A25596A-A103-46B9-9717-AAE127A6438D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A25596A-A103-46B9-9717-AAE127A6438D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28BF6B8-E775-4833-8A68-37F9D367232A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28BF6B8-E775-4833-8A68-37F9D367232A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28BF6B8-E775-4833-8A68-37F9D367232A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28BF6B8-E775-4833-8A68-37F9D367232A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A42D1FFE-3581-4ACD-A665-98C9BB63618D}
 	EndGlobalSection
 EndGlobal
