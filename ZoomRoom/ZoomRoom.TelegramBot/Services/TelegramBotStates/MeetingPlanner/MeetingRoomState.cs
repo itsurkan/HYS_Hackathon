@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -6,7 +5,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
 
-namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
 public class MeetingRoomState : State
 {

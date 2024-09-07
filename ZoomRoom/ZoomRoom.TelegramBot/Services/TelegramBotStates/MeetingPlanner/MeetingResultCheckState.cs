@@ -1,11 +1,10 @@
-using System;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBot.Services;
-using ZoomRoom.Persistence;
+using ZoomRoom.Domain.Requests;
+using ZoomRoom.Domain.Responses;
 using ZoomRoom.Persistence.Models;
 
-namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
 public class MeetingResultCheckState : State
 {
@@ -42,7 +41,6 @@ public class MeetingResultCheckState : State
 
     }
 
-
     public override async Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
@@ -50,9 +48,12 @@ public class MeetingResultCheckState : State
             switch (answer)
             {
                 case "Все вірно":
-                    await _telegramBotContext.meetingService.CreateMeetingAsync(_telegramBotContext.meetingData);
                     _telegramBotContext.MeetingFormIsFilled = false;
-                    await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Зустріч успішно створена!");
+                    var meeting = await GetZoomLink();
+                    _telegramBotContext.meetingData.ZoomLink = meeting.JoinUrl;
+                    _telegramBotContext.meetingData.ZoomMeetingId = long.Parse(meeting.Id);
+                    await _telegramBotContext.meetingService.CreateMeetingAsync(_telegramBotContext.meetingData);
+                    await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Зустріч успішно створена! Посилання на зустріч: " + meeting.JoinUrl);
                     _telegramBotContext.state = new MainMenu(_telegramBotContext);
                     await _telegramBotContext.state.Initialize();
                     break;
@@ -78,6 +79,18 @@ public class MeetingResultCheckState : State
                     break;
             }
         }
+    }
+
+    private async Task<MeetingResponse?> GetZoomLink()
+    {
+        var token = await _telegramBotContext!.zoomService.GetAccessTokenAsync();
+        var meeting = await _telegramBotContext.zoomService.CreateMeetingAsync(token, new MeetingBodyRequest(
+            _telegramBotContext.meetingData.Title,
+            _telegramBotContext.meetingData.ScheduledTime,
+            _telegramBotContext.meetingData.Duration,
+            "Agenga",
+            _telegramBotContext.meetingData.TimeZone));
+        return meeting;
     }
 
 }

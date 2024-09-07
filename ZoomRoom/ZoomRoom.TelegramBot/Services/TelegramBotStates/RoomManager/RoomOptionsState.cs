@@ -1,7 +1,5 @@
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegrambot.Services.TelegramBotStates;
-using TelegramBot.Services;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomManager;
 

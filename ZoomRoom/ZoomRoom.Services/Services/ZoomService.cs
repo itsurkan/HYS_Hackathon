@@ -39,7 +39,11 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService, ID
             start_time = requestBody.startTime.ToString("yyyy-MM-ddTHH:mm:ssZ"),
             duration = requestBody.duration,
             timezone = requestBody.timeZone,
-            agenda = requestBody.agenda
+            agenda = requestBody.agenda,
+            settings = new
+            {
+                join_before_host = true,
+            }
         };
         request.Content = new StringContent(JsonConvert.SerializeObject(meetingDetails), Encoding.UTF8, "application/json");
 
@@ -50,7 +54,6 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService, ID
         var meetingResponse = JsonConvert.DeserializeObject<MeetingResponse>(content);
         return meetingResponse;
     }
-
 
     public async Task<List<MeetingResponse>> GetUpcomingMeetingsAsync(string accessToken)
     {

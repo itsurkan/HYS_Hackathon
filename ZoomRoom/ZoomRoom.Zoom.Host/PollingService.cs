@@ -29,6 +29,7 @@ public class PollingService(
 
                 await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
+            await Task.Delay(TimeSpan.FromSeconds(60), cancellationToken);
         }
     }
 

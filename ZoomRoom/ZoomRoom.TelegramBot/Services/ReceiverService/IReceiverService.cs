@@ -1,4 +1,4 @@
-namespace Telegrambot.Services.ReceiverService;
+namespace ZoomRoom.TelegramBot.Services.ReceiverService;
 
 public interface IReceiverService
 {

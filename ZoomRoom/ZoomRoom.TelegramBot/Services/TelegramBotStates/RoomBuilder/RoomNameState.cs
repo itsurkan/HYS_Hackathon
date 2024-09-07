@@ -1,9 +1,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegrambot.Services.TelegramBotStates.RoomBuilder;
-using TelegramBot.Services;
 
-namespace Telegrambot.Services.TelegramBotStates;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomBuilder;
 
 public class RoomNameState : State
 {

@@ -3,11 +3,11 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegrambot.Services.TelegramBotStates;
 using ZoomRoom.Services.PersistenceServices;
+using ZoomRoom.TelegramBot.Services.TelegramBotStates;
 using User = ZoomRoom.Persistence.Models.User;
 
-namespace Telegrambot.Services;
+namespace ZoomRoom.TelegramBot.Services;
 
 public class UpdateHandler(IUserService userService, TelegramBotContext botContext, ILogger<UpdateHandler> logger) : IUpdateHandler
 {

@@ -2,9 +2,6 @@
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegrambot.Services;
-using Telegrambot.Services.ReceiverService;
-using Telegrambot.Services.TelegramBotStates;
 using ZoomRoom.Bot.Host;
 using ZoomRoom.Persistence;
 using ZoomRoom.Services;
@@ -12,6 +9,7 @@ using ZoomRoom.Services.Interfaces;
 using ZoomRoom.Services.Services;
 using ZoomRoom.TelegramBot.Services;
 using ZoomRoom.TelegramBot.Services.ReceiverService;
+using ZoomRoom.TelegramBot.Services.TelegramBotStates;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -30,7 +28,7 @@ IHost host = Host.CreateDefaultBuilder(args)
             {
                 BotSettings? botConfiguration = sp.GetService<IOptions<BotSettings>>()?.Value;
                 ArgumentNullException.ThrowIfNull(botConfiguration);
-                TelegramBotClientOptions options = new("6933091380:AAFgKCmLK8_4thpwngId4PsIsEao9BqXaUc");
+                TelegramBotClientOptions options = new(botConfiguration.BotToken);
                 return new TelegramBotClient(options, httpClient);
             });
         services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=../ZoomRoom.db"));

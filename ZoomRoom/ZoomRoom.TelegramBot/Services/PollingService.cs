@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Telegrambot.Services.ReceiverService;
+using ZoomRoom.TelegramBot.Services.ReceiverService;
 
 namespace ZoomRoom.TelegramBot.Services;
 

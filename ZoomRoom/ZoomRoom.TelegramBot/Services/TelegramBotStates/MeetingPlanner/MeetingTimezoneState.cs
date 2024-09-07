@@ -3,7 +3,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using ZoomRoom.Domain.Enums;
 
-namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
 public class MeetingTimezoneState : State
 {

@@ -1,7 +1,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
 public class MeetingPasscodeState : State
 {

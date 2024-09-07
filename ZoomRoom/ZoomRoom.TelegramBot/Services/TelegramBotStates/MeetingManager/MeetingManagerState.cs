@@ -2,8 +2,6 @@ using System;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegrambot.Services.TelegramBotStates;
-using TelegramBot.Services;
 using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingManager;

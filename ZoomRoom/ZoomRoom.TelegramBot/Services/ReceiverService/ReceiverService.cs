@@ -1,6 +1,5 @@
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegrambot.Services.ReceiverService;
 
 namespace ZoomRoom.TelegramBot.Services.ReceiverService;
 

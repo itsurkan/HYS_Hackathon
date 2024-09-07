@@ -53,7 +53,8 @@ public class MeetingService(IMeetingRepository meetingRepository) : IMeetingServ
     public async Task<IEnumerable<Meeting>> GetMeetingsToStartAsync(DateTime utcNow)
     {
         var meetings = await meetingRepository.GetAll().ToListAsync();
-        var meetingsToStart = meetings.Where(x => ConvertToUtc(x.ScheduledTime, x.TimeZone) < utcNow).ToList();
+        // var meetingsToStart = meetings.Where(x => ConvertToUtc(x.ScheduledTime, x.TimeZone) < utcNow).ToList();
+        var meetingsToStart = meetings.Where(x=>x.Id==3);
         return meetingsToStart;
     }
 }

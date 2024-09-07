@@ -1,10 +1,9 @@
 using Telegram.Bot;
-using TelegramBot.Services;
 using ZoomRoom.Persistence.Models;
 using ZoomRoom.Services.Interfaces;
 using ZoomRoom.Services.PersistenceServices;
 
-namespace Telegrambot.Services.TelegramBotStates;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates;
 
 public class TelegramBotContext(IUserService userService, IRoomService roomService, IMeetingService meetingService, IZoomService zoomService)
 {

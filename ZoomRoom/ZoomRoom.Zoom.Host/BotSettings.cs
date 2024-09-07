@@ -1,4 +1,4 @@
-namespace ZoomRoom.Bot.Host;
+namespace ZoomRoom.Zoom.Host;
 
 public class BotSettings
 {

@@ -1,9 +1,8 @@
-using System;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegrambot.Services.TelegramBotStates.RoomBuilder;
+using ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomBuilder;
 
-namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
 public class MeetingDateState : State
 {
