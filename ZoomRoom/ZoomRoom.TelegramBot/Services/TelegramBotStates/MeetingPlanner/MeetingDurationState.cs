@@ -37,31 +37,26 @@ public class MeetingDurationState : State
                 await _telegramBotContext.state.Initialize();
                 return;
             }
-            else
+
+            if (Int32.TryParse(answer, out var duration))
             {
-                int duration;
-                if (Int32.TryParse(answer, out duration))
+                _telegramBotContext.meetingData.Duration = duration;
+                if (_telegramBotContext.MeetingFormIsFilled)
                 {
-                    if (_telegramBotContext.MeetingFormIsFilled)
-                    {
-                        _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
-                        await _telegramBotContext.state.Initialize();
-                        return;
-                    }
-                    else
-                    {
-                        _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
-                        await _telegramBotContext.state.Initialize();
-                    }
+                    _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                 }
                 else
                 {
-                    await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Невірний формат тривалості");
-                    _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                    _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
                     await _telegramBotContext.state.Initialize();
-                    return;
                 }
-
+            }
+            else
+            {
+                await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Невірний формат тривалості");
+                _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
             }
         }
     }
