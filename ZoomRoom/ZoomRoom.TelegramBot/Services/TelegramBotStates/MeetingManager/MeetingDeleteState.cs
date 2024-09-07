@@ -52,7 +52,8 @@ public class MeetingDeleteState : State
         }
     }
 
-    public override void HandleCallbackQuery(CallbackQuery callbackQuery)
+    public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
     {
+        await _telegramBotContext.meetingService.DeleteMeetingAsync(callbackQuery.Data);
     }
 }

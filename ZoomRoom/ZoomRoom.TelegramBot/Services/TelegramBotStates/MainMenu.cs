@@ -14,7 +14,8 @@ public class MainMenu : State
     {
         textMessage = "Вітаємо в ZoomRoom! Що бажаєте зробити?";
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Створити кімнату", "Спланувати зустріч").
-            AddNewRow().AddButtons("Управління кімнатами", "Управління зустрічами");
+            AddNewRow().AddButtons("Управління кімнатами", "Управління зустрічами")
+            .AddNewRow().AddButtons("Видалити зустріч");
 
         _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
 

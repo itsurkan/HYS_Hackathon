@@ -34,6 +34,11 @@ public class MeetingService(IMeetingRepository meetingRepository) : IMeetingServ
         }
     }
 
+    public async Task<int> DeleteMeetingAsync(string name)
+    {
+        return await meetingRepository.GetAll().Where(x => x.Title == name).ExecuteDeleteAsync();
+    }
+
     public async Task<Meeting?> GetMeetingByIdAsync(long meetingId)
     {
         return await meetingRepository.FindByIdAsync(meetingId);
