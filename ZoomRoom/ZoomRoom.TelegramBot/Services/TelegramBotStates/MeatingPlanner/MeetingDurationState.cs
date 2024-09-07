@@ -36,6 +36,8 @@ public class MeetingDurationState : State
                 int duration;
                 if (Int32.TryParse(answer, out duration))
                 {
+                    _telegramBotContext.meetingData.Duration = duration;
+
                     if (_telegramBotContext.MeetingFormIsFilled)
                     {
                         _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);

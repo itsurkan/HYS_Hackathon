@@ -38,9 +38,10 @@ public class MeetingResultCheckState : State
             switch (answer)
             {
                 case "Все вірно":
-                    await _telegramBotContext.meetingService.CreateMeetingAsync(_telegramBotContext.meetingData);
                     _telegramBotContext.MeetingFormIsFilled = false;
                     var meetingLink = await GetZoomLink();
+                    _telegramBotContext.meetingData.ZoomLink = meetingLink;
+                    await _telegramBotContext.meetingService.CreateMeetingAsync(_telegramBotContext.meetingData);
                     await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Зустріч успішно створена! Посилання на зустріч: " + meetingLink);
 
                     _telegramBotContext.state = new MainMenu(_telegramBotContext);
