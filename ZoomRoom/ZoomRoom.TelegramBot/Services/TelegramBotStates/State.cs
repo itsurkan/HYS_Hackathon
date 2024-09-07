@@ -1,9 +1,9 @@
 using System;
-using StudyBot.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegrambot.Services.TelegramBotStates;
+using TelegramBot.Services;
 
 namespace Telegrambot.Services.TelegramBotStates;
 
@@ -22,30 +22,33 @@ public class State
     private string _textMessage;
     public string textMessage
     {
-        get => _textMessage ?? "empty message"; 
-        set => _textMessage = value; 
+        get => _textMessage ?? "empty message";
+        set => _textMessage = value;
     }
-    
+
 
     public State(TelegramBotContext telegramBotContext)
     {
-        if(telegramBotContext == null)
+        if (telegramBotContext == null)
         {
             throw new ArgumentNullException(nameof(telegramBotContext));
         }
-        
+
         _telegramBotContext = telegramBotContext;
-        _keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("NOT IMPLEMENTED");        
+        _keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("NOT IMPLEMENTED");
+
+        // _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+
     }
 
     public virtual void HandleAnswer(string answer)
     {
-        if(_telegramBotContext == null)
+        if (_telegramBotContext == null)
         {
             throw new ArgumentNullException(nameof(_telegramBotContext));
         }
 
-        switch(answer)
+        switch (answer)
         {
             case "NOT IMPLEMENTED":
                 _telegramBotContext.state = new MainMenu(_telegramBotContext);

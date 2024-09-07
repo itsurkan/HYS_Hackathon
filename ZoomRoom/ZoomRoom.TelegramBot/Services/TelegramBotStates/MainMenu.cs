@@ -4,17 +4,22 @@ using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegrambot.Services.TelegramBotStates;
 using Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+using ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingManager;
+using ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomManager;
 
-namespace StudyBot.Services;
+namespace TelegramBot.Services;
 
 public class MainMenu : State
 {
-    public MainMenu(TelegramBotContext telegramBotContext) : 
+    public MainMenu(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
-        textMessage = "Вітаємо в BOTNAME!?";
-        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Створити кімнату", "Спланувати зустріч");
-    
+        textMessage = "Вітаємо в ZoomRoom! Що бажаєте зробити?";
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Створити кімнату", "Спланувати зустріч").
+            AddNewRow().AddButtons("Управління кімнатами", "Управління зустрічами");
+
+        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+
     }
 
     public override void HandleAnswer(string answer)
@@ -32,6 +37,13 @@ public class MainMenu : State
             case "Спланувати зустріч":
                 _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
                 break;
+            case "Управління кімнатами":
+                _telegramBotContext.state = new RoomManagerState(_telegramBotContext);
+                break;
+            case "Управління зустрічами":
+                _telegramBotContext.state = new MeetingManagerState(_telegramBotContext);
+                break;
+
             default:
                 _telegramBotContext.state = this;
                 break;
