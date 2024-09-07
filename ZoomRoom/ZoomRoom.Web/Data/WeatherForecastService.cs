@@ -1,6 +1,8 @@
+using ZoomRoom.Services.PersistenceServices;
+
 namespace ZoomRoom.Web.Data
 {
-    public class WeatherForecastService
+    public class WeatherForecastService(IMeetingService meetingService)
     {
         private static readonly string[] Summaries = new[]
         {

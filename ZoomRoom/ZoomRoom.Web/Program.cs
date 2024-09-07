@@ -1,4 +1,5 @@
 using MudBlazor.Services;
+using ZoomRoom.Services;
 using ZoomRoom.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<WeatherForecastService>();
 builder.Services.AddMudServices();
-
+builder.Services.AddPersistenceServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
