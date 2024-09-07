@@ -13,21 +13,22 @@ public class MeetingManagerState : State
     public MeetingManagerState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
-        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
-        _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для редагування:");
 
 
     }
 
     public async override Task Initialize()
     {
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
+        await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для редагування:");
+
         InlineKeyboardMarkup button = new InlineKeyboardMarkup();
 
-        List<Task<Room>> roomTasks = (await _telegramBotContext.userService.GetUserByIdAsync(_telegramBotContext.chatId))            
+        List<Task<Room>> roomTasks = (await _telegramBotContext.userService.GetUserByIdAsync(_telegramBotContext.chatId))
             .RoomUsers
             .Select(async ru => await _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id))
             .ToList();
-        
+
         List<Room> rooms = (await Task.WhenAll(roomTasks)).ToList();
 
         List<Meeting> meetings = await _telegramBotContext.meetingService.GetAllMeetingsAsync();
@@ -45,9 +46,10 @@ public class MeetingManagerState : State
                 $"meeting.ScheduledTime \n" +
                 $" {meetingStatus}"
                 );
-        }    }
+        }
+    }
 
-    public override Task HandleAnswer(string answer)
+    public async override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {
@@ -55,13 +57,13 @@ public class MeetingManagerState : State
             {
                 case "Назад":
                     _telegramBotContext.state = new MainMenu(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 default:
                     _telegramBotContext.state = this;
                     break;
             }
         }
-        return Task.CompletedTask;
     }
 
     public override void HandleCallbackQuery(CallbackQuery callbackQuery)

@@ -73,7 +73,6 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
 
         var state =  chatStates[chatId].state;
         await state.HandleAnswer(update.Message?.Text);
-        await state.Initialize();
 
             // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
             //                             chatStates[chatId].state.textMessage,

@@ -22,7 +22,7 @@ public class MainMenu : State
 
     }
 
-    public override Task HandleAnswer(string answer)
+    public async override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext == null)
         {
@@ -33,22 +33,24 @@ public class MainMenu : State
         {
             case "Створити кімнату":
                 _telegramBotContext.state = new RoomNameState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 break;
             case "Спланувати зустріч":
                 _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 break;
             case "Управління кімнатами":
                 _telegramBotContext.state = new RoomManagerState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 break;
             case "Управління зустрічами":
                 _telegramBotContext.state = new MeetingManagerState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 break;
 
             default:
                 _telegramBotContext.state = this;
                 break;
         }
-
-        return Task.CompletedTask;
     }
 }

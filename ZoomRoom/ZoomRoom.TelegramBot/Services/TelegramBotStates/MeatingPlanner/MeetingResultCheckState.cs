@@ -12,20 +12,22 @@ public class MeetingResultCheckState : State
     public MeetingResultCheckState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
-        keyboardMarkup = new ReplyKeyboardMarkup(true).
-            AddButton("Все вірно").AddNewRow().
-            AddButtons("Змінити тему", "Змінити дату").AddNewRow().
-            AddButtons("Змінити тривалість", "Змінити пароль").AddNewRow().
-            AddButton("Змінити часовий пояс");
-
-        _telegramBotContext!.MeetingFormIsFilled = true;
 
 
     }
 
     public override async Task Initialize()
     {
-        Room room = _telegramBotContext!.roomService!.GetRoomByIdAsync(_telegramBotContext!.meetingData.RoomId).Result;
+
+        keyboardMarkup = new ReplyKeyboardMarkup(true).
+    AddButton("Все вірно").AddNewRow().
+    AddButtons("Змінити тему", "Змінити дату").AddNewRow().
+    AddButtons("Змінити тривалість", "Змінити пароль").AddNewRow().
+    AddButton("Змінити часовий пояс");
+
+        _telegramBotContext!.MeetingFormIsFilled = true;
+
+        Room room = await _telegramBotContext!.roomService!.GetRoomByIdAsync(_telegramBotContext!.meetingData.RoomId);
 
         textMessage = "Перевірте правильність введених даних:\n" +
             $"Тема: {_telegramBotContext.meetingData.Title}\n" +
@@ -52,21 +54,27 @@ public class MeetingResultCheckState : State
                     _telegramBotContext.MeetingFormIsFilled = false;
                     await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Зустріч успішно створена!");
                     _telegramBotContext.state = new MainMenu(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Змінити тему":
                     _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Змінити дату":
                     _telegramBotContext.state = new MeetingDateState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Змінити тривалість":
                     _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Змінити пароль":
                     _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Змінити часовий пояс":
                     _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
             }
         }

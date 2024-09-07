@@ -14,8 +14,6 @@ public class MeetingTimezoneState : State
     public MeetingTimezoneState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
-        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
-        textMessage = "Оберіть часовий пояс зустрічі:";
 
 
 
@@ -25,6 +23,8 @@ public class MeetingTimezoneState : State
 
     public override async Task Initialize()
     {
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
+        textMessage = "Оберіть часовий пояс зустрічі:";
 
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
         inlineKeyboard.AddButtons("UTC +12", "UTC +11", "UTC +10", "UTC +9").AddNewRow().
@@ -52,17 +52,20 @@ public class MeetingTimezoneState : State
             {
                 await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Часовий пояс зустрічі не може бути пустим ");
                 _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
             }
             else
             if (answer == "Назад")
             {
                 _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 return;
             }
             else
             {
                 await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть часовий пояс із списку!");
                 _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 return;
             }
 
@@ -106,6 +109,7 @@ public class MeetingTimezoneState : State
 
         _telegramBotContext!.meetingData.TimeZone = uTCTimeZone;
         _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+        await _telegramBotContext.state.Initialize();
 
         skipMessageHandling = true;
 

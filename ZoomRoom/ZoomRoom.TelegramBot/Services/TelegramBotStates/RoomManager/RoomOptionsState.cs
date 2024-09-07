@@ -28,10 +28,12 @@ public class RoomOptionsState : State
                 case "Додати користувачів":
                     _telegramBotContext.roomData = await _telegramBotContext.roomService.GetRoomByNameAsync(roomName);
                     _telegramBotContext.state = new AddUsersState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Видалити користувачів":
                     _telegramBotContext.roomData = await _telegramBotContext.roomService.GetRoomByNameAsync(roomName);
                     _telegramBotContext.state = new DeleteUserState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Видалити кімнату":
                     await RoomDeletion();
@@ -48,5 +50,6 @@ public class RoomOptionsState : State
         await _telegramBotContext!.roomService.DeleteRoomAsync(_telegramBotContext.roomData.Id);
         await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната видалена!");
         _telegramBotContext.state = new MainMenu(_telegramBotContext);
+        await _telegramBotContext.state.Initialize();
     }
 }

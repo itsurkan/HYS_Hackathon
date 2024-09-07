@@ -13,12 +13,15 @@ public class DeleteUserState : State
     public DeleteUserState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
-        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
+    }
 
+    public override async Task Initialize()
+    {
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
         textMessage = "Введіть логін користувача, якого бажаєте видалити:";
     }
 
-    public override Task HandleAnswer(string answer)
+    public async override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {
@@ -26,13 +29,13 @@ public class DeleteUserState : State
             {
                 case "Назад":
                     _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 default:
                     DeleteUser(answer);
                     break;
             }
         }
-        return Task.CompletedTask;
     }
 
     private async void DeleteUser(string answer)
@@ -49,5 +52,6 @@ public class DeleteUserState : State
             await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувача з таким логіном не існує!");
         }
         _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+        await _telegramBotContext.state.Initialize();
     }
 }

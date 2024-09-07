@@ -12,9 +12,14 @@ public class AddUsersState : State
     public AddUsersState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
+    }
+
+    public async override Task Initialize()
+    {
         textMessage = "Введіть логіни користувачів через кому:";
 
-        keyboardMarkup =  new ReplyKeyboardMarkup(true).AddButtons("Назад");
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
+    
     }
 
     public async override Task HandleAnswer(string answer)
@@ -25,6 +30,7 @@ public class AddUsersState : State
             {
                 case "Назад":
                     _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 default:
                     await AddUsers(answer);
@@ -48,5 +54,6 @@ public class AddUsersState : State
         await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувачі додані!");
 
         _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+        await _telegramBotContext.state.Initialize();
     }
 }

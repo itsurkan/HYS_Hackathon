@@ -11,11 +11,17 @@ public class MeetingDateState : State
     public MeetingDateState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
+
+    }
+
+    public override async Task Initialize()
+    {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
         textMessage = "Введіть дату проведення зустрічі:\n (формат: рік.місяць.день година:хвилина)";
 
-        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+        await _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
 
+        return;
     }
 
     public override async Task HandleAnswer(string answer)
@@ -27,12 +33,14 @@ public class MeetingDateState : State
             {
                 await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Дата зустрічі не може бути пустою ");
                 _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
             }
             else
             {
                 if (answer == "Назад")
                 {
                     _telegramBotContext.state = new RoomCreatorState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     return;
                 }
                 else
@@ -45,6 +53,7 @@ public class MeetingDateState : State
                     {
                         await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Невірний формат дати");
                         _telegramBotContext.state = new MeetingDateState(_telegramBotContext);
+                        await _telegramBotContext.state.Initialize();
                         return;
                     }
 
@@ -52,9 +61,16 @@ public class MeetingDateState : State
                     if (_telegramBotContext.MeetingFormIsFilled)
                     {
                         _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+                        await _telegramBotContext.state.Initialize();
                         return;
                     }
-                    else _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                    else
+                    {
+                        _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                        await _telegramBotContext.state.Initialize();
+                    }
+
+
 
                 }
             }
