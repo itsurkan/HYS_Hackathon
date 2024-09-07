@@ -10,7 +10,6 @@ public class PollingService(
     ILogger<PollingService> logger)
     : BackgroundService
 {
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await DoWork(stoppingToken);
@@ -27,8 +26,10 @@ public class PollingService(
 
                 await receiverService.ReceiveAsync(cancellationToken);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                logger.LogError("Polling failed with exception: {Exception}", ex);
+
                 await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
         }

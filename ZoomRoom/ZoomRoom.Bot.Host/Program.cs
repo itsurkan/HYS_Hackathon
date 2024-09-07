@@ -8,6 +8,7 @@ using ZoomRoom.Bot.Host;
 using ZoomRoom.Persistence;
 using ZoomRoom.Services;
 using ZoomRoom.TelegramBot.Services;
+using ZoomRoom.TelegramBot.Services.ReceiverService;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -30,7 +31,6 @@ IHost host = Host.CreateDefaultBuilder(args)
             });
         services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=../db/ZoomRoom.db"));
         services.AddScoped<IUpdateHandler, UpdateHandler>();
-        services.AddHostedService<PollingService>();
         services.AddHostedService<PollingService>();
         services.AddScoped<IReceiverService, ReceiverService>();
         services.AddPersistenceServices();

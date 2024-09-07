@@ -9,19 +9,8 @@ using ZoomRoom.Services.PersistenceServices;
 
 namespace Telegrambot.Services;
 
-public class UpdateHandler : IUpdateHandler
+public class UpdateHandler() : IUpdateHandler
 {
-    private readonly IMeetingService _meetingService;
-    private readonly IRoomService _roomService;
-    private readonly IUserService _userService;
-
-    public UpdateHandler(IUserService userService, IRoomService roomService, IMeetingService meetingService)
-    {
-        _userService = userService;
-        _roomService = roomService;
-        _meetingService = meetingService;
-    }
-
     Dictionary<long, TelegramBotContext> chatStates = new Dictionary<long, TelegramBotContext>();
 
     public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
@@ -72,9 +61,9 @@ public class UpdateHandler : IUpdateHandler
 
         if (!chatStates.ContainsKey(chatId))
         {
-            chatStates[chatId] = new TelegramBotContext(botClient, chatId,
-                 _userService, _roomService,_meetingService
-            );
+            // chatStates[chatId] = new TelegramBotContext(botClient, chatId,
+            //      userService, roomService,meetingService
+            // );
         }
 
 
@@ -84,7 +73,5 @@ public class UpdateHandler : IUpdateHandler
         // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
         //                             chatStates[chatId].state.textMessage,
         //                             replyMarkup: chatStates[chatId].state.keyboardMarkup);
-
-
     }
 }
