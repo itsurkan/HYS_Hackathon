@@ -61,8 +61,28 @@ namespace ZoomRoom.Web.Pages
         private async void EditMeeting(Meeting meeting)
         {
 
-           
+            var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Medium };
 
+            var parameter = new DialogParameters
+            {
+                { "Model", meeting }
+
+            };
+
+            var dialog = await DialogService.ShowAsync<UpdateMeetingComponent>($"Оновити", parameter, options);
+
+            var result = await dialog.Result;
+
+            if (result.Data is bool confirmed && confirmed) 
+            {
+                await MeetingService.UpdateMeetingAsync(meeting);
+                StateHasChanged();
+                Snackbar.Add("Оновлено!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Операцію скасовано", Severity.Warning); 
+            }
         }
     }
 }
