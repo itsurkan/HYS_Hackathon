@@ -17,9 +17,9 @@ public class AddUsersState : State
     public async override Task Initialize()
     {
         textMessage = "Введіть логіни користувачів через кому:";
-
-        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
     
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
+        await _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
     }
 
     public async override Task HandleAnswer(string answer)

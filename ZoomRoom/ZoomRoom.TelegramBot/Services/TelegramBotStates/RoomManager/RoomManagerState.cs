@@ -20,18 +20,20 @@ public class RoomManagerState : State
     public override async Task Initialize()
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
-        await _telegramBotContext.state.Initialize();
+
+
+        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
+        List<Room> rooms = (await _telegramBotContext.roomService.GetAllRoomsAsync()).SelectMany(u => u.RoomUsers)
+                    .Select(ru => ru.Room)
+                    .ToList();
+
+        foreach (Room room in rooms) inlineKeyboard.AddButtons(room.Name);
 
         await _telegramBotContext.botClient.SendTextMessageAsync(
             chatId: _telegramBotContext.chatId,
             text: "Оберіть кімнату:"
+            , replyMarkup: inlineKeyboard
         );
-
-        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
-        List<Room> rooms = _telegramBotContext.roomService.GetAllRoomsAsync().Result.SelectMany(u => u.RoomUsers)
-                    .Select(ru => ru.Room)
-                    .ToList();
-        foreach (Room room in rooms) inlineKeyboard.AddButtons(room.Name);
     }
 
     public async override Task HandleAnswer(string answer)

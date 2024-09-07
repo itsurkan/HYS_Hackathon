@@ -27,6 +27,7 @@ public class MeetingManagerState : State
         List<Task<Room>> roomTasks = (await _telegramBotContext.userService.GetUserByIdAsync(_telegramBotContext.chatId))
             .RoomUsers
             .Select(async ru => await _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id))
+            .Cast<Task<Room>>()
             .ToList();
 
         List<Room> rooms = (await Task.WhenAll(roomTasks)).ToList();

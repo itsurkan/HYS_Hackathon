@@ -15,8 +15,13 @@ public class RoomOptionsState : State
     {
         this.roomName = roomName;
 
+    }
+
+    public override async Task Initialize()
+    {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Додати користувачів", "Видалити користувачів").AddNewRow().AddButton("Видалити кімнату");
         textMessage = $"Що бажаєте зробиит з кімнатою {roomName}?";
+        await _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
     }
 
     public override async Task HandleAnswer(string answer)
