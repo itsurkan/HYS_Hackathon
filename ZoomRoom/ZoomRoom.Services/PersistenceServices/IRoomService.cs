@@ -10,4 +10,5 @@ public interface IRoomService
     Task<Room?> GetRoomByIdAsync(long roomId);
     Task<Room?> GetRoomByNameAsync(string roomName);
     Task<List<Room>> GetAllRoomsAsync();
+    Task<List<Room>> GetAllRoomsWithUserAsync();
 }

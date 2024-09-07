@@ -1,4 +1,4 @@
-using System;
+
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,21 +14,22 @@ public class MeetingManagerState : State
         base(telegramBotContext)
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
-        _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для редагування:");
+        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для редагування:");
 
         InlineKeyboardMarkup button = new InlineKeyboardMarkup();
 
-        List<Room> rooms = telegramBotContext.userService
+        var rooms = telegramBotContext.userService
             .GetUserByIdAsync(_telegramBotContext.chatId)
-            .Result
-            .RoomUsers
-            .Select(ru => _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id).Result)
+            .GetAwaiter()
+            .GetResult()
+            ?.RoomUsers
+            .Select(ru => _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id).GetAwaiter().GetResult())
             .ToList();
 
         List<Meeting> meetings = telegramBotContext.meetingService.GetAllMeetingsAsync().Result;
 
         List<Meeting> finalMeetings = meetings
-            .Where(m => rooms.Any(r => m.RoomId == r.Id))
+            .Where(m => rooms?.Any(r => m.RoomId == r.Id) ?? false)
             .ToList();
 
         foreach (Meeting meeting in finalMeetings)

@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using ZoomRoom.IRepository.Implementation.Repositories;
+using ZoomRoom.Repository.Contracts.IRepositories;
 using ZoomRoom.Repository.Implementation.Repositories;
 using ZoomRoom.Services.PersistenceServices;
 using ZoomRoom.Services.PersistenceServices.Impl;

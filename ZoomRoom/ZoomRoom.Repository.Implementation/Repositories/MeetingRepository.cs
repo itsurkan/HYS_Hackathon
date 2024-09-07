@@ -1,13 +1,8 @@
-using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
+using ZoomRoom.Repository.Contracts.IRepositories;
 
 namespace ZoomRoom.Repository.Implementation.Repositories
 {
-    public class MeetingRepository : RepositoryBase<Meeting>, IMeetingRepository
-    {
-        public MeetingRepository(SqliteDbContext sqliteDbContext) : base(sqliteDbContext)
-        {
-        }
-    }
+    public class MeetingRepository(SqliteDbContext dbContext) : RepositoryBase<Meeting>(dbContext), IMeetingRepository;
 }

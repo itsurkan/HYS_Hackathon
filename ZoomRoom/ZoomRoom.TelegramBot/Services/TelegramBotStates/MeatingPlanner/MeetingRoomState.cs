@@ -19,9 +19,10 @@ public class MeetingRoomState : State
 
         if (telegramBotContext.botClient is not null)
         {
-            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsAsync().GetAwaiter().GetResult().SelectMany(u => u.RoomUsers)
-                    .Select(ru => ru.Room)
+            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsWithUserAsync().GetAwaiter().GetResult()
                     .ToList();
+
+            // todo handle no rooms
 
             InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
             foreach (Room room in rooms)
@@ -63,9 +64,8 @@ public class MeetingRoomState : State
 
         if (_telegramBotContext is not null)
         {
-            List<Room> rooms = _telegramBotContext.roomService.GetAllRoomsAsync().Result.SelectMany(u => u.RoomUsers)
-                    .Select(ru => ru.Room)
-                    .ToList();
+            var rooms = _telegramBotContext.roomService.GetAllRoomsWithUserAsync().GetAwaiter().GetResult()
+                .ToList();
 
             _telegramBotContext!.meetingData.RoomId = rooms.FirstOrDefault(r => r.Name == callbackQuery.Data).Id;
             _telegramBotContext.state = new MeetingDateState(_telegramBotContext);

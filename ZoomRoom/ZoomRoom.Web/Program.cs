@@ -1,10 +1,6 @@
 using MudBlazor.Services;
-using ZoomRoom.Bot.Host;
-using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence;
-using ZoomRoom.Repository.Implementation.Repositories;
-using ZoomRoom.Services.PersistenceServices;
-using ZoomRoom.Services.PersistenceServices.Impl;
+using ZoomRoom.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +10,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 
 builder.Services.AddDbContext<SqliteDbContext>();
-builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IMeetingService, MeetingService>();
-builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddPersistenceServices();
 
 
 var app = builder.Build();

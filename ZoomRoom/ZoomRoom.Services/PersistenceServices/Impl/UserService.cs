@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence.Models;
+using ZoomRoom.Repository.Contracts.IRepositories;
 
 namespace ZoomRoom.Services.PersistenceServices.Impl;
 
