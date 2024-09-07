@@ -1,0 +1,27 @@
+@page "/update-meeting"
+@using Microsoft.AspNetCore.Components
+@using Microsoft.JSInterop
+@using MudBlazor
+@using ZoomRoom.Persistence.Models
+@using ZoomRoom.Services.PersistenceServices
+
+<MudDialog>
+    <DialogContent>
+        <EditForm Model="@Model">
+            <DataAnnotationsValidator />
+            <MudTextField @bind-Value="Model.Title" Label="Тема" Variant="Variant.Text"></MudTextField>
+            <br />
+            <MudTextField @bind-Value="Model.Duration" MaxLength="200" Label="Тривалість" Variant="Variant.Text" />
+            <br />
+            <MudDatePicker Label="Початок" MinDate="DateTime.UtcNow.AddDays(-1)" Editable="true" DateChanged="SetSchedule" DateFormat="dd.MM.yyyy" Date="Model.ScheduledTime" Placeholder="Виберіть час проведення" />
+            <br />
+            <MudTimePicker TimeChanged="SetTime" Label="Час" AmPm="true" Time="_time" />
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <br />
+        <br />
+        <MudButton OnClick="Confirm" Variant="Variant.Filled" Color="Color.Success" Class="ml-auto">Оновити</MudButton>
+        <MudButton OnClick="Cancel" Variant="Variant.Filled" Color="Color.Error">Відмінити</MudButton>
+    </DialogActions>
+</MudDialog>
