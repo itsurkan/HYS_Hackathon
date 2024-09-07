@@ -18,7 +18,7 @@ public class MeetingCreatorState : State
         _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
     }
 
-    public override async void HandleAnswer(string answer)
+    public override async Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {

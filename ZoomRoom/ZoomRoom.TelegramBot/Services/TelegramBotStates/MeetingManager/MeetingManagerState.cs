@@ -33,7 +33,7 @@ public class MeetingManagerState : State
 
         foreach (Meeting meeting in finalMeetings)
         {
-            string meetingStatus = DateTime.Compare(DateTime.Now, meeting.ScheduledTime.AddMinutes(meeting.Duration)) > 0 ? "Завершено" : "Не завершено"; 
+            string meetingStatus = DateTime.Compare(DateTime.Now, meeting.ScheduledTime.AddMinutes(meeting.Duration)) > 0 ? "Завершено" : "Не завершено";
 
             button.AddButtons(
                 $"meeting.Title \n" +
@@ -43,7 +43,7 @@ public class MeetingManagerState : State
         }
     }
 
-    public override void HandleAnswer(string answer)
+    public override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {
@@ -57,6 +57,7 @@ public class MeetingManagerState : State
                     break;
             }
         }
+        return Task.CompletedTask;
     }
 
     public override void HandleCallbackQuery(CallbackQuery callbackQuery)

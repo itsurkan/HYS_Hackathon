@@ -8,5 +8,6 @@ public interface IRoomService
     Task<Room> UpdateRoomAsync(Room room);
     Task DeleteRoomAsync(long roomId);
     Task<Room?> GetRoomByIdAsync(long roomId);
+    Task<Room?> GetRoomByNameAsync(string roomName);
     Task<List<Room>> GetAllRoomsAsync();
 }

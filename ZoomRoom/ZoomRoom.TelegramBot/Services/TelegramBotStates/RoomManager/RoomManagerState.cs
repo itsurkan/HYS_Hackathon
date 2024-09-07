@@ -28,7 +28,7 @@ public class RoomManagerState : State
 
     }
 
-    public override void HandleAnswer(string answer)
+    public override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {
@@ -43,6 +43,8 @@ public class RoomManagerState : State
             }
 
         }
+        return Task.CompletedTask;
+
     }
 
     public override async void HandleCallbackQuery(CallbackQuery callbackQuery)

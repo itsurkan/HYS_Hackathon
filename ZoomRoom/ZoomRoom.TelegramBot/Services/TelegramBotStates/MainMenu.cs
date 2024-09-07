@@ -22,7 +22,7 @@ public class MainMenu : State
 
     }
 
-    public override void HandleAnswer(string answer)
+    public override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext == null)
         {
@@ -48,5 +48,7 @@ public class MainMenu : State
                 _telegramBotContext.state = this;
                 break;
         }
+
+        return Task.CompletedTask;
     }
 }

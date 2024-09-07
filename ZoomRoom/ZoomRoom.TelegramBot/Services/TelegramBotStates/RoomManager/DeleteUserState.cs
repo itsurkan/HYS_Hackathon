@@ -18,7 +18,7 @@ public class DeleteUserState : State
         textMessage = "Введіть логін користувача, якого бажаєте видалити:";
     }
 
-    public override void HandleAnswer(string answer)
+    public override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {
@@ -32,6 +32,7 @@ public class DeleteUserState : State
                     break;
             }
         }
+        return Task.CompletedTask;
     }
 
     private async void DeleteUser(string answer)

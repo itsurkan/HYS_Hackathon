@@ -41,7 +41,7 @@ public class State
 
     }
 
-    public virtual void HandleAnswer(string answer)
+    public virtual Task HandleAnswer(string answer)
     {
         if (_telegramBotContext == null)
         {
@@ -58,6 +58,7 @@ public class State
                 break;
         }
 
+        return Task.CompletedTask;
     }
 
     public virtual void HandleCallbackQuery(CallbackQuery callbackQuery)
