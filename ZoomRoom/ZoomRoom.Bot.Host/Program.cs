@@ -4,9 +4,12 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegrambot.Services;
 using Telegrambot.Services.ReceiverService;
+using Telegrambot.Services.TelegramBotStates;
 using ZoomRoom.Bot.Host;
 using ZoomRoom.Persistence;
 using ZoomRoom.Services;
+using ZoomRoom.Services.Interfaces;
+using ZoomRoom.Services.Services;
 using ZoomRoom.TelegramBot.Services;
 using ZoomRoom.TelegramBot.Services.ReceiverService;
 
@@ -15,6 +18,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         // Register Bot configuration
         services.Configure<BotSettings>(context.Configuration.GetSection("BotSettings"));
+        services.Configure<ZoomSettings>(context.Configuration.GetSection("ZoomSettings"));
 
         // Register named HttpClient to benefits from IHttpClientFactory
         // and consume it with ITelegramBotClient typed client.
@@ -33,6 +37,8 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddScoped<IUpdateHandler, UpdateHandler>();
         services.AddHostedService<PollingService>();
         services.AddScoped<IReceiverService, ReceiverService>();
+        services.AddScoped<TelegramBotContext>();
+        services.AddScoped<IZoomService, ZoomService>();
         services.AddPersistenceServices();
     })
     .Build();

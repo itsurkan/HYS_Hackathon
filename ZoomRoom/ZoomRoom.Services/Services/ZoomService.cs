@@ -1,22 +1,24 @@
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using Microsoft.Extensions.Options;
 using ZoomRoom.Domain.Requests;
 using ZoomRoom.Domain.Responses;
 using ZoomRoom.Services.Interfaces;
 
 namespace ZoomRoom.Services.Services;
-public class ZoomService(string clientId, string clientSecret, string accountId) : IZoomService
+public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
 {
+    public ZoomSettings ZoomSettings { get; } = zoomSettings.Value;
     private readonly HttpClient _httpClient = new HttpClient();
 
 
     public async Task<string> GetAccessTokenAsync()
     {
-        var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
+        var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{ZoomSettings.ClientId}:{ZoomSettings.ClientSecret}"));
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authHeaderValue);
 
-        var response = await _httpClient.PostAsync($"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={accountId}", null);
+        var response = await _httpClient.PostAsync($"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={ZoomSettings.AccountId}", null);
 
         var result = await response.Content.ReadAsStringAsync();
         response.EnsureSuccessStatusCode();
@@ -50,7 +52,7 @@ public class ZoomService(string clientId, string clientSecret, string accountId)
 
     public async Task<List<MeetingResponse>> GetUpcomingMeetingsAsync(string accessToken)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://api.zoom.us/v2/users/me/meetings?type=upcoming");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.zoom.us/v2/users/me/meetings?type=upcoming");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
         var response = await _httpClient.SendAsync(request);
