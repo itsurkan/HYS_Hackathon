@@ -1,17 +1,15 @@
-using System;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Telegrambot.Services.ReceiverService;
 
-namespace Telegrambot.Services;
+namespace ZoomRoom.TelegramBot.Services;
 
-public class PollingService : BackgroundService
+public class PollingService(
+    IServiceProvider serviceProvider,
+    ILogger<PollingService> logger)
+    : BackgroundService
 {
-    private IReceiverService _receiverService;
-
-    public PollingService(IReceiverService receiverService)
-    {
-        _receiverService = receiverService;
-    }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -24,7 +22,10 @@ public class PollingService : BackgroundService
         {
             try
             {
-                await _receiverService.ReceiveAsync(cancellationToken);
+                using var scope = serviceProvider.CreateScope();
+                var receiverService = scope.ServiceProvider.GetRequiredService<IReceiverService>();
+
+                await receiverService.ReceiveAsync(cancellationToken);
             }
             catch (Exception e)
             {
@@ -32,5 +33,4 @@ public class PollingService : BackgroundService
             }
         }
     }
-
 }

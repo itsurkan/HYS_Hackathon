@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions // call in registration
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IMeetingService, MeetingService>();
         services.AddScoped<IRoomService, RoomService>();
-        services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=ZoomRoom.db"));
+        // services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=ZoomRoom.db"));
         return services;
     }
 }

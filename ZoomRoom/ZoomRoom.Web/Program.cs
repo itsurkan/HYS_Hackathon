@@ -7,6 +7,7 @@ using Telegrambot.Services.ReceiverService;
 using ZoomRoom.Persistence;
 using ZoomRoom.Services.PersistenceServices.Impl;
 using ZoomRoom.TelegramBot;
+using ZoomRoom.TelegramBot.Services;
 using ZoomRoom.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
