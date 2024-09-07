@@ -1,26 +1,25 @@
-using Microsoft.Extensions.Options;
 using MudBlazor.Services;
-using Telegram.Bot;
-using Telegram.Bot.Polling;
-using Telegrambot.Services;
-using Telegrambot.Services.ReceiverService;
 using ZoomRoom.Bot.Host;
+using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence;
+using ZoomRoom.Repository.Implementation.Repositories;
+using ZoomRoom.Services.PersistenceServices;
 using ZoomRoom.Services.PersistenceServices.Impl;
-using ZoomRoom.TelegramBot;
-using ZoomRoom.TelegramBot.Services;
-using ZoomRoom.TelegramBot.Services.ReceiverService;
-using ZoomRoom.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
 
 builder.Services.AddDbContext<SqliteDbContext>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMeetingService, MeetingService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 
 
 var app = builder.Build();
