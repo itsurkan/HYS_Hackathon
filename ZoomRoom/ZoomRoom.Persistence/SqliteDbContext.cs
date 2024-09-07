@@ -17,7 +17,7 @@ namespace ZoomRoom.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=./../../db/ZoomRoom.db");
+            optionsBuilder.UseSqlite("Data Source=../ZoomRoom.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
