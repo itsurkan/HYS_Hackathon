@@ -35,11 +35,10 @@ public class MeetingManagerState : State
         {
             string meetingStatus = DateTime.Compare(DateTime.Now, meeting.ScheduledTime.AddMinutes(meeting.Duration)) > 0 ? "Завершено" : "Не завершено"; 
 
-            button.AddButtons(
+            button.AddButtons(InlineKeyboardButton.WithCallbackData(
                 $"meeting.Title \n" +
                 $"meeting.ScheduledTime \n" +
-                $" {meetingStatus}"
-                );
+                $" {meetingStatus}", meeting.Id.ToString()));
         }
     }
 
@@ -61,5 +60,8 @@ public class MeetingManagerState : State
 
     public override void HandleCallbackQuery(CallbackQuery callbackQuery)
     {
+        _telegramBotContext.state = new MeetingInteractiveState(_telegramBotContext, int.Parse(callbackQuery.Data));
+
+        
     }
 }
