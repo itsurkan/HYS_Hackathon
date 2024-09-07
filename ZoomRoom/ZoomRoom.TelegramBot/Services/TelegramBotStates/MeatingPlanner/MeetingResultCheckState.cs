@@ -2,6 +2,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Services;
 using ZoomRoom.Domain.Requests;
+using ZoomRoom.Domain.Responses;
 using ZoomRoom.Persistence.Models;
 
 namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
@@ -39,10 +40,11 @@ public class MeetingResultCheckState : State
             {
                 case "Все вірно":
                     _telegramBotContext.MeetingFormIsFilled = false;
-                    var meetingLink = await GetZoomLink();
-                    _telegramBotContext.meetingData.ZoomLink = meetingLink;
+                    var meeting = await GetZoomLink();
+                    _telegramBotContext.meetingData.ZoomLink = meeting.JoinUrl;
+                    _telegramBotContext.meetingData.ZoomMeetingId = long.Parse(meeting.Id);
                     await _telegramBotContext.meetingService.CreateMeetingAsync(_telegramBotContext.meetingData);
-                    await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Зустріч успішно створена! Посилання на зустріч: " + meetingLink);
+                    await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Зустріч успішно створена! Посилання на зустріч: " + meeting.JoinUrl);
 
                     _telegramBotContext.state = new MainMenu(_telegramBotContext);
                     break;
@@ -65,15 +67,15 @@ public class MeetingResultCheckState : State
         }
     }
 
-    private async Task<string> GetZoomLink()
+    private async Task<MeetingResponse?> GetZoomLink()
     {
         var token = await _telegramBotContext!.zoomService.GetAccessTokenAsync();
-        var meetingLink = await _telegramBotContext.zoomService.CreateMeetingAsync(token, new MeetingBodyRequest(
+        var meeting = await _telegramBotContext.zoomService.CreateMeetingAsync(token, new MeetingBodyRequest(
             _telegramBotContext.meetingData.Title,
             _telegramBotContext.meetingData.ScheduledTime,
             _telegramBotContext.meetingData.Duration,
             "Agenga",
             _telegramBotContext.meetingData.TimeZone));
-        return meetingLink;
+        return meeting;
     }
 }

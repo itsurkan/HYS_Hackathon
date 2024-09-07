@@ -53,7 +53,8 @@ public class MeetingDateState : State
                         _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
                         return;
                     }
-                    else _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+
+                    _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
 
                 }
             }

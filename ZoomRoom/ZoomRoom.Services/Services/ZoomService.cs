@@ -27,7 +27,7 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
         return tokenResponse!.AccessToken;
     }
 
-    public async Task<string> CreateMeetingAsync(string accessToken, MeetingBodyRequest requestBody)
+    public async Task<MeetingResponse?> CreateMeetingAsync(string accessToken, MeetingBodyRequest requestBody)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, "https://api.zoom.us/v2/users/me/meetings");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -47,7 +47,7 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
 
         var content = await response.Content.ReadAsStringAsync();
         var meetingResponse = JsonConvert.DeserializeObject<MeetingResponse>(content);
-        return meetingResponse!.JoinUrl;
+        return meetingResponse;
     }
 
     public async Task<List<MeetingResponse>> GetUpcomingMeetingsAsync(string accessToken)
