@@ -13,7 +13,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 
-
 builder.Services.AddDbContext<SqliteDbContext>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
@@ -21,14 +20,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMeetingService, MeetingService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
-
-
-
-
-// Add telegram related services
-builder.Services.Configure<BotSettings>(builder.Configuration.GetSection("BotSettings"));
-
-
 
 
 var app = builder.Build();

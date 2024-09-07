@@ -37,7 +37,7 @@ public class MeetingResultCheckState : State
 
 
 
-    public override async void HandleAnswer(string answer)
+    public override async Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {

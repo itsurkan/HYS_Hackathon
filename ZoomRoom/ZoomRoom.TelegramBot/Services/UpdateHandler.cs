@@ -70,8 +70,8 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
                 );
             }
 
-
-            chatStates[chatId].state.HandleAnswer(update.Message?.Text);
+        var state =  chatStates[chatId].state;
+        await state.HandleAnswer(update.Message?.Text);
 
 
             // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,

@@ -9,7 +9,7 @@ namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
 public class MeetingTimezoneState : State
 {
     bool skipMessageHandling = false;
- 
+
 
     public MeetingTimezoneState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
@@ -34,7 +34,7 @@ public class MeetingTimezoneState : State
 
     }
 
-    public override async void HandleAnswer(string answer)
+    public override async Task HandleAnswer(string answer)
     {
         if(skipMessageHandling) return;
 
@@ -50,7 +50,7 @@ public class MeetingTimezoneState : State
             {
                 _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
                 return;
-            } else 
+            } else
             {
                 await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть часовий пояс із списку!");
                 _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);

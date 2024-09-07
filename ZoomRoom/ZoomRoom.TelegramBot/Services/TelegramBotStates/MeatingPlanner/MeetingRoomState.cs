@@ -19,7 +19,7 @@ public class MeetingRoomState : State
 
         if (telegramBotContext.botClient is not null)
         {
-            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsAsync().Result.SelectMany(u => u.RoomUsers)
+            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsAsync().GetAwaiter().GetResult().SelectMany(u => u.RoomUsers)
                     .Select(ru => ru.Room)
                     .ToList();
 
@@ -39,7 +39,7 @@ public class MeetingRoomState : State
     }
 
 
-    public override async void HandleAnswer(string answer)
+    public override async Task HandleAnswer(string answer)
     {
         if (skipMessageHandling) return;
 

@@ -44,6 +44,12 @@ public class RoomService : IRoomService
         return await _roomRepository.FindByIdAsync(roomId);
     }
 
+    public async Task<Room?> GetRoomByNameAsync(string roomName)
+    {
+        return await _roomRepository.GetAll().FirstOrDefaultAsync(x=>x.Name == roomName);
+
+    }
+
     public async Task<List<Room>> GetAllRoomsAsync()
     {
         return await _roomRepository.GetAll().ToListAsync();
