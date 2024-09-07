@@ -1,40 +1,34 @@
-using System;
 using Telegram.Bot;
-using Telegrambot.Services.TelegramBotStates.MeatingPlanner;
-using Telegrambot.Services.TelegramBotStates.RoomBuilder;
 using TelegramBot.Services;
 using ZoomRoom.Persistence.Models;
+using ZoomRoom.Services.Interfaces;
 using ZoomRoom.Services.PersistenceServices;
-using ZoomRoom.Services.PersistenceServices.Impl;
-using ZoomRoom.Services.Services;
 
 namespace Telegrambot.Services.TelegramBotStates;
 
-public class TelegramBotContext
+public class TelegramBotContext(IUserService userService, IRoomService roomService, IMeetingService meetingService, IZoomService zoomService)
 {
+    public IUserService userService { get; } = userService;
+    public IRoomService roomService { get; } = roomService;
+    public IMeetingService meetingService { get; } = meetingService;
+
+    public IZoomService zoomService { get; } = zoomService;
+
     public State state;
 
-    public ITelegramBotClient? botClient = null;
+    public ITelegramBotClient? botClient;
     public long chatId;
 
-    public Meeting meetingData = new Meeting();
+    public Meeting meetingData = new ();
     public bool MeetingFormIsFilled { get; set; }
 
     public Room roomData = new Room();
 
-    public IUserService userService;
-    public IRoomService roomService;
-    public IMeetingService meetingService;
-    //public ZoomService zoomService;
-
-    public TelegramBotContext(ITelegramBotClient botClient, long chatId, IUserService userService, IRoomService roomService, IMeetingService meetingService)
+    public TelegramBotContext Init(ITelegramBotClient botClient, long chatId)
     {
         this.botClient = botClient;
         this.chatId = chatId;
-        this.userService = userService;
-        this.roomService = roomService;
-        this.meetingService = meetingService;
-      //  this.zoomService = zoomService;
         state = new MainMenu(this);
+        return this;
     }
 }

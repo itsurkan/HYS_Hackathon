@@ -1,10 +1,7 @@
-using System;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegrambot.Services.TelegramBotStates.MeatingPlanner;
 using TelegramBot.Services;
-using ZoomRoom.Persistence;
-using ZoomRoom.Persistence.Models;
 
 namespace Telegrambot.Services.TelegramBotStates.RoomBuilder;
 

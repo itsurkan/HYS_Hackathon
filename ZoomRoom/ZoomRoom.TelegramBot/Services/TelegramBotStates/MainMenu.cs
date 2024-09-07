@@ -1,5 +1,3 @@
-using System;
-
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegrambot.Services.TelegramBotStates;
