@@ -1,42 +1,51 @@
 using Microsoft.EntityFrameworkCore;
-using ZoomRoom.Persistence;
+using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Services.PersistenceServices.Impl;
 
-public class MeetingService(SqliteDbContext context) : IMeetingService
+
+public class MeetingService : IMeetingService
 {
+    private readonly IMeetingRepository _meetingRepository;
+
+    public MeetingService(IMeetingRepository meetingRepository)
+    {
+        _meetingRepository = meetingRepository;
+    }
     public async Task<Meeting> CreateMeetingAsync(Meeting meeting)
     {
-        context.Meetings.Add(meeting);
-        await context.SaveChangesAsync();
+        _meetingRepository.Create(meeting);
+        await _meetingRepository.SaveChangesAsync();
+
         return meeting;
     }
 
     public async Task<Meeting> UpdateMeetingAsync(Meeting meeting)
     {
-        context.Meetings.Update(meeting);
-        await context.SaveChangesAsync();
+        _meetingRepository.Update(meeting);
+        await _meetingRepository.SaveChangesAsync();
+
         return meeting;
     }
 
-    public async Task DeleteMeetingAsync(int meetingId)
+    public async Task DeleteMeetingAsync(long meetingId)
     {
-        var meeting = await context.Meetings.FindAsync(meetingId);
+        var meeting = await _meetingRepository.FindByIdAsync(meetingId);
         if (meeting != null)
         {
-            context.Meetings.Remove(meeting);
-            await context.SaveChangesAsync();
+            _meetingRepository.Delete(meeting);
+            await _meetingRepository.SaveChangesAsync();
         }
     }
 
-    public async Task<Meeting?> GetMeetingByIdAsync(int meetingId)
+    public async Task<Meeting?> GetMeetingByIdAsync(long meetingId)
     {
-        return await context.Meetings.FindAsync(meetingId);
+        return await _meetingRepository.FindByIdAsync(meetingId);
     }
 
     public async Task<List<Meeting>> GetAllMeetingsAsync()
     {
-        return await context.Meetings.ToListAsync();
+        return await _meetingRepository.GetAll().ToListAsync();
     }
 }
