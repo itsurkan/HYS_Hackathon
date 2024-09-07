@@ -48,6 +48,11 @@ public class RoomService(IRoomRepository roomRepository) : IRoomService
         return await roomRepository.GetAll().ToListAsync();
     }
 
+    public IQueryable<Room> GetAll()
+    {
+        return roomRepository.GetAll();
+    }
+
     public async Task<List<Room>> GetAllRoomsWithUserAsync()
     {
         return await roomRepository.GetAllRoomsWithUsersAsync();

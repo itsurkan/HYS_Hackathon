@@ -27,9 +27,7 @@ public class MeetingRoomState : State
 
         if (_telegramBotContext.botClient is not null)
         {
-            List<Room> rooms = (await _telegramBotContext.roomService.GetAllRoomsAsync()).SelectMany(u => u.RoomUsers)
-                    .Select(ru => ru.Room)
-                    .ToList();
+            List<Room> rooms = await _telegramBotContext.roomService.GetAllRoomsWithUserAsync();
 
             InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
             foreach (Room room in rooms)
@@ -71,7 +69,7 @@ public class MeetingRoomState : State
 
         if (_telegramBotContext is not null)
         {
-            List<Room> rooms = _telegramBotContext.roomService.GetAllRoomsAsync().Result;
+            var rooms = await _telegramBotContext.roomService.GetAllRoomsAsync();
 
             //Fix this
             using (var db = new SqliteDbContext(new DbContextOptions<SqliteDbContext>()))
