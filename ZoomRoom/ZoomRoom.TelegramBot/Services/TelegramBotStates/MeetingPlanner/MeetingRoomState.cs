@@ -7,15 +7,9 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
-public class MeetingRoomState : State
+public class MeetingRoomState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
     bool skipMessageHandling = false;
-
-    public MeetingRoomState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-
-    }
 
     public override async Task Initialize()
     {

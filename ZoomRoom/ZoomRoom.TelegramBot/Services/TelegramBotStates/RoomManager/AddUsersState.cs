@@ -4,13 +4,8 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomManager;
 
-public class AddUsersState : State
+public class AddUsersState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
-    public AddUsersState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-    }
-
     public async override Task Initialize()
     {
         textMessage = "Введіть логіни користувачів через кому:";

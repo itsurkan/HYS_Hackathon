@@ -6,15 +6,8 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
-public class MeetingResultCheckState : State
+public class MeetingResultCheckState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
-    public MeetingResultCheckState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-
-
-    }
-
     public override async Task Initialize()
     {
 

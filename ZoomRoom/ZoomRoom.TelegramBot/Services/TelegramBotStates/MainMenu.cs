@@ -46,6 +46,11 @@ public class MainMenu : State
                 await _telegramBotContext.state.Initialize();
                 break;
 
+            case "Видалити зустріч":
+                _telegramBotContext.state = new MeetingDeleteState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
+                break;
+
             default:
                 _telegramBotContext.state = this;
                 break;

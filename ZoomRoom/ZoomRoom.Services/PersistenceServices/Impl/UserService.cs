@@ -5,54 +5,48 @@ using ZoomRoom.Repository.Contracts.IRepositories;
 namespace ZoomRoom.Services.PersistenceServices.Impl;
 
 
-public class UserService : IUserService
+public class UserService(IUserRepository userRepository) : IUserService
 
 {
-    private readonly IUserRepository _userRepository;
-
-    public UserService(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
     public async Task<User> CreateUserAsync(User user)
     {
-        _userRepository.Create(user);
-        await _userRepository.SaveChangesAsync();
+        userRepository.Create(user);
+        await userRepository.SaveChangesAsync();
 
         return user;
     }
 
     public async Task<User> UpdateUserAsync(User user)
     {
-        _userRepository.Update(user);
-        await _userRepository.SaveChangesAsync();
+        userRepository.Update(user);
+        await userRepository.SaveChangesAsync();
 
         return user;
     }
 
     public async Task DeleteUserAsync(long userId)
     {
-        var user = await _userRepository.FindByIdAsync(userId);
+        var user = await userRepository.FindByIdAsync(userId);
         if (user != null)
         {
-            _userRepository.Delete(user);
-            await _userRepository.SaveChangesAsync();
+            userRepository.Delete(user);
+            await userRepository.SaveChangesAsync();
         }
     }
 
     public async Task<User?> GetUserByIdAsync(long userId)
     {
-        return await _userRepository.FindByIdAsync(userId);
+        return await userRepository.FindByIdAsync(userId);
     }
 
     public async Task<List<User>> GetAllUsersAsync()
     {
-        return await _userRepository.GetAll().ToListAsync();
+        return await userRepository.GetAll().ToListAsync();
     }
 
     public async Task<User?> GetUserByUsernameAsync(string user) =>
-        await _userRepository.GetAll().Where(x=>x.Username ==user).FirstOrDefaultAsync();
+        await userRepository.GetAll().Where(x=>x.Username ==user).FirstOrDefaultAsync();
 
     public async Task<bool> GetUserRoomAsync(long existingUserId, long roomDataId) =>
-        await _userRepository.GetAll().Where(x=>x.Id == existingUserId && x.RoomUsers.Any(r=>r.Id == roomDataId)).AnyAsync();
+        await userRepository.GetAll().Where(x=>x.Id == existingUserId && x.RoomUsers.Any(r=>r.Id == roomDataId)).AnyAsync();
 }

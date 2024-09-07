@@ -5,15 +5,8 @@ using ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomBuilder;
 
 
-public class RoomCreatorState : State
+public class RoomCreatorState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
-    public RoomCreatorState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-
-
-    }
-
     public override async Task Initialize()
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("До головного меню", "Спланувати зустріч");

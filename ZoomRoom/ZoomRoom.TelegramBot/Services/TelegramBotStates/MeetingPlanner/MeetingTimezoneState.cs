@@ -5,20 +5,10 @@ using ZoomRoom.Domain.Enums;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
-public class MeetingTimezoneState : State
+public class MeetingTimezoneState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
     bool skipMessageHandling = false;
 
-
-    public MeetingTimezoneState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-
-
-
-
-
-    }
 
     public override async Task Initialize()
     {

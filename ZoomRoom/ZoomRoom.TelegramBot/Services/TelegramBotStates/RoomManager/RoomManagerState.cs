@@ -5,15 +5,8 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomManager;
 
-public class RoomManagerState : State
+public class RoomManagerState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
-    public RoomManagerState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-
-
-    }
-
     public override async Task Initialize()
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
