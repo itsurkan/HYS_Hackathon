@@ -20,24 +20,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
 
-
-//builder.Services.AddSingleton<IZoomService, ZoomService>();
-builder.Services.AddTransient<UserService>();
-builder.Services.AddTransient<RoomService>();
-builder.Services.AddTransient<MeetingService>();
-
 builder.Services.AddDbContext<SqliteDbContext>();
-
-
-// Add telegram related services
-builder.Services.Configure<BotSettings>(builder.Configuration.GetSection("BotSettings"));
-
-
-//TODO: Resolve this issue
-builder.Services.AddScoped<IUpdateHandler, UpdateHandler>();
-builder.Services.AddTransient<IReceiverService, ReceiverService>();
-builder.Services.AddHostedService<PollingService>();
-
 
 
 var app = builder.Build();
