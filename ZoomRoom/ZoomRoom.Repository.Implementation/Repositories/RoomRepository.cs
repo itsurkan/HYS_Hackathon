@@ -1,14 +1,14 @@
-using ZoomRoom.IRepository.Implementation.Repositories;
+using Microsoft.EntityFrameworkCore;
 using ZoomRoom.Persistence;
 using ZoomRoom.Persistence.Models;
+using ZoomRoom.Repository.Contracts.IRepositories;
 
 
 namespace ZoomRoom.Repository.Implementation.Repositories
 {
-    public class RoomRepository : RepositoryBase<Room>, IRoomRepository
+    public class RoomRepository(SqliteDbContext dbContext) : RepositoryBase<Room>(dbContext), IRoomRepository
     {
-        public RoomRepository(SqliteDbContext sqliteDbContext) : base(sqliteDbContext)
-        {
-        }
+        public async Task<List<Room>> GetAllRoomsWithUsersAsync() =>
+            await dbContext.Set<Room>().Include(x=>x.RoomUsers).Where(x=>x.RoomUsers.Count != 0).ToListAsync();
     }
 }

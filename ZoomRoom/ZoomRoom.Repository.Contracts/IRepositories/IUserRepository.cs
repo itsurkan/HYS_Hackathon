@@ -1,7 +1,6 @@
 using ZoomRoom.Persistence.Models;
-using ZoomRoom.Repository.Contracts;
 
-namespace ZoomRoom.IRepository.Implementation.Repositories
+namespace ZoomRoom.Repository.Contracts.IRepositories
 {
     public interface IUserRepository : IRepositoryBase<User>
     {

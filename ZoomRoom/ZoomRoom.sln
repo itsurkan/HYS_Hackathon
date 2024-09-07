@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Repository.Impleme
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Web", "ZoomRoom.Web\ZoomRoom.Web.csproj", "{627197B7-5397-41AC-AD5A-EB2F26F202DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomRoom.Zoom.Host", "ZoomRoom.Zoom.Host\ZoomRoom.Zoom.Host.csproj", "{B1F3F418-0AF9-4DE7-82EA-9EF7B9801354}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{627197B7-5397-41AC-AD5A-EB2F26F202DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{627197B7-5397-41AC-AD5A-EB2F26F202DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{627197B7-5397-41AC-AD5A-EB2F26F202DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F3F418-0AF9-4DE7-82EA-9EF7B9801354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F3F418-0AF9-4DE7-82EA-9EF7B9801354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F3F418-0AF9-4DE7-82EA-9EF7B9801354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F3F418-0AF9-4DE7-82EA-9EF7B9801354}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

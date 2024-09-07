@@ -12,6 +12,7 @@ public class Meeting : BaseEntity
     public UTCTimeZone TimeZone { get; set; }
     public int Duration { get; set; }
     public string ZoomLink { get; set; } = String.Empty;
+    public long ZoomMeetingId { get; set; }
     public long RoomId { get; set; }
     public Room Room { get; set; } = null!;
 }

@@ -9,7 +9,7 @@ using User = ZoomRoom.Persistence.Models.User;
 
 namespace Telegrambot.Services;
 
-public class UpdateHandler(IMeetingService meetingService, IRoomService roomService, IUserService userService, ILogger<UpdateHandler> logger) : IUpdateHandler
+public class UpdateHandler(IUserService userService, TelegramBotContext botContext, ILogger<UpdateHandler> logger) : IUpdateHandler
 {
     readonly Dictionary<long, TelegramBotContext> chatStates = new ();
 
@@ -62,17 +62,11 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
 
             if (!chatStates.ContainsKey(chatId))
             {
-                chatStates[chatId] = new TelegramBotContext(
-                    botClient,
-                    chatId,
-                    userService,
-                    roomService,
-                    meetingService
-                );
+                chatStates[chatId] = botContext.Init(botClient, chatId);
             }
 
-        var state =  chatStates[chatId].state;
-        await state.HandleAnswer(update.Message?.Text);
+            var state = chatStates[chatId].state;
+            await state.HandleAnswer(update.Message?.Text);
 
             // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
             //                             chatStates[chatId].state.textMessage,

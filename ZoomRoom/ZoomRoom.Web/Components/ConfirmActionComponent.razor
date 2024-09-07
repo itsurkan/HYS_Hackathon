@@ -1,0 +1,26 @@
+@inject IDialogService DialogService
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h6">@Message</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Confirm">Підтвердити</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="Cancel">Скасувати</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string Message { get; set; }
+
+    private void Confirm()
+    {
+        MudDialog.Close(DialogResult.Ok(true)); 
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Close(DialogResult.Cancel()); 
+    }
+}
