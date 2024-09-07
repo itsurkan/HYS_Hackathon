@@ -1,4 +1,4 @@
-
+using System;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -13,23 +13,29 @@ public class MeetingManagerState : State
     public MeetingManagerState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
+
+
+    }
+
+    public async override Task Initialize()
+    {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
-        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для редагування:");
+        await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для редагування:");
 
         InlineKeyboardMarkup button = new InlineKeyboardMarkup();
 
-        var rooms = telegramBotContext.userService
-            .GetUserByIdAsync(_telegramBotContext.chatId)
-            .GetAwaiter()
-            .GetResult()
-            ?.RoomUsers
-            .Select(ru => _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id).GetAwaiter().GetResult())
+        List<Task<Room>> roomTasks = (await _telegramBotContext.userService.GetUserByIdAsync(_telegramBotContext.chatId))
+            .RoomUsers
+            .Select(async ru => await _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id))
+            .Cast<Task<Room>>()
             .ToList();
 
-        List<Meeting> meetings = telegramBotContext.meetingService.GetAllMeetingsAsync().Result;
+        List<Room> rooms = (await Task.WhenAll(roomTasks)).ToList();
+
+        List<Meeting> meetings = await _telegramBotContext.meetingService.GetAllMeetingsAsync();
 
         List<Meeting> finalMeetings = meetings
-            .Where(m => rooms?.Any(r => m.RoomId == r.Id) ?? false)
+            .Where(m => rooms.Any(r => m.RoomId == r.Id))
             .ToList();
 
         foreach (Meeting meeting in finalMeetings)
@@ -44,7 +50,7 @@ public class MeetingManagerState : State
         }
     }
 
-    public override Task HandleAnswer(string answer)
+    public async override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {
@@ -52,13 +58,13 @@ public class MeetingManagerState : State
             {
                 case "Назад":
                     _telegramBotContext.state = new MainMenu(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 default:
                     _telegramBotContext.state = this;
                     break;
             }
         }
-        return Task.CompletedTask;
     }
 
     public override void HandleCallbackQuery(CallbackQuery callbackQuery)

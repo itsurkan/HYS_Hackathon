@@ -23,6 +23,7 @@ public class UpdateHandler(IUserService userService, TelegramBotContext botConte
         long chatId = callbackQuery.From.Id;
 
         chatStates[chatId].state.HandleCallbackQuery(callbackQuery);
+        await chatStates[chatId].state.Initialize();
     }
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -66,7 +67,6 @@ public class UpdateHandler(IUserService userService, TelegramBotContext botConte
 
             var state = chatStates[chatId].state;
             await state.HandleAnswer(update.Message?.Text);
-
 
             // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
             //                             chatStates[chatId].state.textMessage,

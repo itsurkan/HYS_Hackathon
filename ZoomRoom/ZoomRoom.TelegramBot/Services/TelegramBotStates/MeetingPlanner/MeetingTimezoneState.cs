@@ -13,6 +13,15 @@ public class MeetingTimezoneState : State
     public MeetingTimezoneState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
+
+
+
+
+
+    }
+
+    public override async Task Initialize()
+    {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
         textMessage = "Оберіть часовий пояс зустрічі:";
 
@@ -25,17 +34,16 @@ public class MeetingTimezoneState : State
                         AddButtons("UTC -5", "UTC -6", "UTC -7", "UTC -8").AddNewRow().
                         AddButtons("UTC -9", "UTC -10", "UTC- 11", "UTC -12").AddNewRow();
 
-        _telegramBotContext!.botClient!.SendTextMessageAsync(
+        await _telegramBotContext!.botClient!.SendTextMessageAsync(
                 chatId: _telegramBotContext.chatId,
                 text: "Оберіть часовий пояс зустрічі:",
                 replyMarkup: inlineKeyboard
             );
-
     }
 
     public override async Task HandleAnswer(string answer)
     {
-        if(skipMessageHandling) return;
+        if (skipMessageHandling) return;
 
         if (_telegramBotContext is not null)
         {
@@ -43,16 +51,20 @@ public class MeetingTimezoneState : State
             {
                 await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Часовий пояс зустрічі не може бути пустим ");
                 _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
             }
             else
             if (answer == "Назад")
             {
                 _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 return;
-            } else
+            }
+            else
             {
                 await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть часовий пояс із списку!");
                 _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
                 return;
             }
 
@@ -70,7 +82,7 @@ public class MeetingTimezoneState : State
             "UTC +12" => UTCTimeZone.UTCPlus12,
             "UTC +11" => UTCTimeZone.UTCPlus11,
             "UTC +10" => UTCTimeZone.UTCPlus10,
-            "UTC +9" =>  UTCTimeZone.UTCPlus9,
+            "UTC +9" => UTCTimeZone.UTCPlus9,
             "UTC +8" => UTCTimeZone.UTCPlus8,
             "UTC +7" => UTCTimeZone.UTCPlus7,
             "UTC +6" => UTCTimeZone.UTCPlus6,
@@ -96,6 +108,7 @@ public class MeetingTimezoneState : State
 
         _telegramBotContext!.meetingData.TimeZone = uTCTimeZone;
         _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+        await _telegramBotContext.state.Initialize();
 
         skipMessageHandling = true;
 

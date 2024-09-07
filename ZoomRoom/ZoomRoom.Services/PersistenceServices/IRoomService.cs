@@ -11,4 +11,5 @@ public interface IRoomService
     Task<Room?> GetRoomByNameAsync(string roomName);
     Task<List<Room>> GetAllRoomsAsync();
     Task<List<Room>> GetAllRoomsWithUserAsync();
+    IQueryable<Room> GetAll();
 }

@@ -11,27 +11,33 @@ public class RoomCreatorState : State
     public RoomCreatorState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
-        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("До головного меню", "Спланувати зустріч");
-        textMessage = "Введіть назву нової кімнати:";
 
 
-        CreateRoom();
     }
 
-    private void CreateRoom()
+    public override async Task Initialize()
+    {
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("До головного меню", "Спланувати зустріч");
+        textMessage = "Введіть назву нової кімнати:";
+        await CreateRoom();
+    }
+
+    private async Task CreateRoom()
     {
         //TODO: Create room;
         _telegramBotContext.roomData.Password = Guid.NewGuid().ToString().Substring(0, 8);
 
-        _telegramBotContext.roomService.CreateRoomAsync(_telegramBotContext.roomData);
+        await _telegramBotContext.roomService.CreateRoomAsync(_telegramBotContext.roomData);
 
 
-        _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната створена!");
-        _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId,
+        await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната створена!");
+        await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId,
             $"Назва кімнати: {_telegramBotContext.roomData.Name}\n" +
             $"Пароль: {_telegramBotContext.roomData.Password}\n" +
             $"Ви можете використовувати ці дані для входу у кімнату"
         );
+        await _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Що виконати далі?", replyMarkup: keyboardMarkup);
+
 
     }
 
@@ -43,9 +49,11 @@ public class RoomCreatorState : State
             {
                 case "До головного меню":
                     _telegramBotContext.state = new MainMenu(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 case "Спланувати зустріч":
                     _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
+                    await _telegramBotContext.state.Initialize();
                     break;
                 default:
                     _telegramBotContext.state = this;
