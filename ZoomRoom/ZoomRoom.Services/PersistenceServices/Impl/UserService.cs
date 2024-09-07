@@ -40,7 +40,7 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<User> GetUserByIdAsync(long userId)
+    public async Task<User?> GetUserByIdAsync(long userId)
     {
         return await _userRepository.FindByIdAsync(userId);
     }

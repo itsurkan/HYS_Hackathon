@@ -1,18 +1,17 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegrambot.Services.TelegramBotStates;
-using ZoomRoom.Persistence;
 using ZoomRoom.Services.PersistenceServices;
+using User = ZoomRoom.Persistence.Models.User;
 
 namespace Telegrambot.Services;
 
 public class UpdateHandler(IMeetingService meetingService, IRoomService roomService, IUserService userService, ILogger<UpdateHandler> logger) : IUpdateHandler
 {
-    Dictionary<long, TelegramBotContext> chatStates = new Dictionary<long, TelegramBotContext>();
+    readonly Dictionary<long, TelegramBotContext> chatStates = new ();
 
     public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
     {
@@ -35,6 +34,7 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
             {
                 await HandleCallbackQuery(botClient, update.CallbackQuery!, cancellationToken);
             }
+
             return;
         }
 
@@ -42,29 +42,30 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
 
         if (update.Message.Text == "/start")
         {
-            using (var db = new SqliteDbContext(new DbContextOptions<SqliteDbContext>()))
             {
-                ZoomRoom.Persistence.Models.User user = db.Users.FirstOrDefault(u => u.Id == chatId);
+                var user = await userService.GetUserByIdAsync(chatId);
                 if (user is null)
                 {
-                    user = new ZoomRoom.Persistence.Models.User
+                    user = new User
                     {
                         Id = chatId,
                         Username = update.Message.Chat.Username ?? String.Empty,
-                        FirstName = update.Message.Chat.FirstName,
+                        FirstName = update.Message.Chat.FirstName ?? string.Empty,
                         LastName = update.Message.Chat.LastName ?? String.Empty
                     };
-
-                    db.Users.Add(user);
-                    db.SaveChanges();
+                    await userService.CreateUserAsync(user);
                 }
             }
         }
 
         if (!chatStates.ContainsKey(chatId))
         {
-            chatStates[chatId] = new TelegramBotContext(botClient, chatId,
-            userService, roomService,meetingService
+            chatStates[chatId] = new TelegramBotContext(
+                botClient,
+                chatId,
+                userService,
+                roomService,
+                meetingService
             );
         }
 

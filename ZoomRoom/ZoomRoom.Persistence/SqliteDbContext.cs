@@ -5,6 +5,10 @@ namespace ZoomRoom.Persistence
 {
     public class SqliteDbContext(DbContextOptions<SqliteDbContext> options) : DbContext
     {
+        public SqliteDbContext():this(new DbContextOptions<SqliteDbContext>())
+        {
+
+        }
         public DbSet<User> Users { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
@@ -13,7 +17,7 @@ namespace ZoomRoom.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source= {Environment.CurrentDirectory}/ZoomRoom.db");
+            optionsBuilder.UseSqlite("Data Source=../ZoomRoom.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
