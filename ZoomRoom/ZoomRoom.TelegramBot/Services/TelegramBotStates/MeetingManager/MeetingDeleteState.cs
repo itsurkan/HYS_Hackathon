@@ -55,5 +55,7 @@ public class MeetingDeleteState : State
     public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
     {
         await _telegramBotContext.meetingService.DeleteMeetingAsync(callbackQuery.Data);
+        await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Мітинг видалено");
+
     }
 }
