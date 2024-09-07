@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -9,7 +10,7 @@ using ZoomRoom.Services.PersistenceServices;
 
 namespace Telegrambot.Services;
 
-public class UpdateHandler() : IUpdateHandler
+public class UpdateHandler(ILogger<UpdateHandler> logger) : IUpdateHandler
 {
     Dictionary<long, TelegramBotContext> chatStates = new Dictionary<long, TelegramBotContext>();
 
@@ -27,6 +28,7 @@ public class UpdateHandler() : IUpdateHandler
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Message received");
         if (update.Type is not UpdateType.Message)
         {
             if (update.Type == UpdateType.CallbackQuery)
