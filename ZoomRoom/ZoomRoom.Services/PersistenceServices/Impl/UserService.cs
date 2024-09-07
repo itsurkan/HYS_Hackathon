@@ -30,7 +30,7 @@ public class UserService(SqliteDbContext context) : IUserService
         }
     }
 
-    public async Task<User> GetUserByIdAsync(long userId)
+    public async Task<User?> GetUserByIdAsync(long userId)
     {
         return await context.Users.FindAsync(userId);
     }
