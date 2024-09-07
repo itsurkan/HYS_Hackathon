@@ -33,18 +33,15 @@ public class MeetingManagerState : State
         List<Meeting> meetings = await _telegramBotContext.meetingService.GetAllMeetingsAsync();
 
         List<Meeting> finalMeetings = meetings
-            .Where(m => rooms.Any(r => m.RoomId == r.Id))
+            // .Where(m => rooms.Any(r => m.RoomId == r.Id))
             .ToList();
 
         foreach (Meeting meeting in finalMeetings)
         {
             string meetingStatus = DateTime.Compare(DateTime.Now, meeting.ScheduledTime.AddMinutes(meeting.Duration)) > 0 ? "Завершено" : "Не завершено";
 
-            button.AddButtons(
-                $"meeting.Title \n" +
-                $"meeting.ScheduledTime \n" +
-                $" {meetingStatus}"
-                );
+            button.AddButtons($"{meeting.Title}" + $" {meetingStatus}");
+            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Доступні мітинги",  replyMarkup: button);
         }
     }
 
