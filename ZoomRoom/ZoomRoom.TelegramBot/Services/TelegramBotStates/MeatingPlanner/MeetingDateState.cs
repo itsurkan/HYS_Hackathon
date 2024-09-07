@@ -1,47 +1,64 @@
 using System;
-using StudyBot.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegrambot.Services.TelegramBotStates.RoomBuilder;
 
 namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
 
 public class MeetingDateState : State
 {
 
-    public MeetingDateState(TelegramBotContext telegramBotContext) : 
+    public MeetingDateState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
         textMessage = "Введіть дату проведення зустрічі:\n (формат: рік.місяць.день година:хвилина)";
+
+        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+
     }
 
     public override async void HandleAnswer(string answer)
     {
 
-        if (_telegramBotContext == null) throw new Exception(nameof(_telegramBotContext));
-
-        if(answer == "Назад")
+        if (_telegramBotContext is not null)
         {
-            _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
-        }
-        
-        if(string.IsNullOrEmpty(answer))
-        {
-            await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Дата зустрічі не може бути пустою ");
-            _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
-        }
-        else
-        {
-            _telegramBotContext.meetingData.MeetingDate = answer;
-            
-            
-            if(_telegramBotContext.meetingData.IsFilled)
+            if (string.IsNullOrEmpty(answer))
             {
-                _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+                await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Дата зустрічі не може бути пустою ");
+                _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
             }
+            else
+            {
+                if (answer == "Назад")
+                {
+                    _telegramBotContext.state = new RoomCreatorState(_telegramBotContext);
+                    return;
+                }
+                else
+                {
+                    try
+                    {
+                        _telegramBotContext.meetingData.ScheduledTime = DateTime.Parse(answer);
+                    }
+                    catch
+                    {
+                        await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Невірний формат дати");
+                        _telegramBotContext.state = new MeetingDateState(_telegramBotContext);
+                        return;
+                    }
 
 
-            _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);  
+                    if (_telegramBotContext.MeetingFormIsFilled)
+                    {
+                        _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+                        return;
+                    }
+                    else _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+
+                }
+            }
         }
     }
+
 }

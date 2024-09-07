@@ -1,40 +1,38 @@
 using System;
-using StudyBot.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+using TelegramBot.Services;
+using ZoomRoom.Persistence;
+using ZoomRoom.Persistence.Models;
 
 namespace Telegrambot.Services.TelegramBotStates.RoomBuilder;
 
-public class RoomData 
-{
-    public string name;
-    public string password;
-    public bool isFilled = false;
-}
 
 public class RoomCreatorState : State
 {
-    public RoomCreatorState(TelegramBotContext telegramBotContext, string roomName) : 
+    public RoomCreatorState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("До головного меню", "Спланувати зустріч");
         textMessage = "Введіть назву нової кімнати:";
 
 
-        CreateRoom(roomName);
+        CreateRoom();
     }
 
-    private void CreateRoom(string roomName)
+    private void CreateRoom()
     {
-        //TODO: Create room
-        _telegramBotContext.roomData.name = roomName;
-        _telegramBotContext.roomData.password = Guid.NewGuid().ToString().Substring(0, 8);
+        //TODO: Create room;
+        _telegramBotContext.roomData.Password = Guid.NewGuid().ToString().Substring(0, 8);
 
-        _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната створена!");
-        _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, 
-            $"Назва кімнати: {_telegramBotContext.roomData.name}\n" +
-            $"Пароль: {_telegramBotContext.roomData.password}\n" +
+        _telegramBotContext.roomService.CreateRoomAsync(_telegramBotContext.roomData);
+
+
+        _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната створена!");
+        _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId,
+            $"Назва кімнати: {_telegramBotContext.roomData.Name}\n" +
+            $"Пароль: {_telegramBotContext.roomData.Password}\n" +
             $"Ви можете використовувати ці дані для входу у кімнату"
         );
 
@@ -42,19 +40,22 @@ public class RoomCreatorState : State
 
     public override async void HandleAnswer(string answer)
     {
-        if (_telegramBotContext == null) throw new ArgumentNullException(nameof(_telegramBotContext));
-
-        switch (answer)
+        if (_telegramBotContext is not null)
         {
-            case "До головного меню":
-                _telegramBotContext.state = new MainMenu(_telegramBotContext);
-                break;
-            case "Спланувати зустріч":
-                _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
-                break;
-            default:
-                _telegramBotContext.state = this;
-                break;
+            switch (answer)
+            {
+                case "До головного меню":
+                    _telegramBotContext.state = new MainMenu(_telegramBotContext);
+                    break;
+                case "Спланувати зустріч":
+                    _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
+                    break;
+                default:
+                    _telegramBotContext.state = this;
+                    break;
+            }
+
         }
+
     }
 }

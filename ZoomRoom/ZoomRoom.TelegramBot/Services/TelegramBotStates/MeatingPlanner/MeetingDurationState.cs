@@ -6,38 +6,52 @@ namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
 
 public class MeetingDurationState : State
 {
-    public MeetingDurationState(TelegramBotContext telegramBotContext) : 
+    public MeetingDurationState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
-        textMessage = "Введіть тривалість зустрічі:";
+        textMessage = "Введіть тривалість зустрічі (в хвилинах):";
+
+        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+
     }
 
     public override async void HandleAnswer(string answer)
     {
-        if (_telegramBotContext == null) throw new ArgumentNullException(nameof(_telegramBotContext));
-
-        if(answer == "Назад")
+        if (_telegramBotContext is not null)
         {
-            _telegramBotContext.state = new MeetingDateState(_telegramBotContext);
-        }
-
-        if(string.IsNullOrEmpty(answer))
-        {
-            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Тривалість зустрічі не може бути пустою ");
-            _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
-        }
-        else
-        {
-            _telegramBotContext.meetingData.Duration = answer;
-
-            
-            if(_telegramBotContext.meetingData.IsFilled)
+            if (answer == "Назад")
             {
-                _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+                _telegramBotContext.state = new MeetingDateState(_telegramBotContext);
+                return;
             }
 
-            _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);  
+            if (string.IsNullOrEmpty(answer))
+            {
+                await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Тривалість зустрічі не може бути пустою ");
+                _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                return;
+            }
+            else
+            {
+                int duration;
+                if (Int32.TryParse(answer, out duration))
+                {
+                    if (_telegramBotContext.MeetingFormIsFilled)
+                    {
+                        _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
+                        return;
+                    }
+                    else _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
+                }
+                else
+                {
+                    await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Невірний формат тривалості");
+                    _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
+                    return;
+                }
+
+            }
         }
     }
 
