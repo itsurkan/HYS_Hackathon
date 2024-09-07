@@ -1,7 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+<<<<<<< HEAD
     <TargetFramework>net7.0</TargetFramework>
+=======
+    <TargetFramework>net8.0</TargetFramework>
+>>>>>>> main
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -10,4 +14,12 @@
     <PackageReference Include="MudBlazor" Version="7.8.0" />
   </ItemGroup>
 
+<<<<<<< HEAD
+=======
+  <ItemGroup>
+    <ProjectReference Include="..\ZoomRoom.Services\ZoomRoom.Services.csproj" />
+    <ProjectReference Include="..\ZoomRoom.TelegramBot\ZoomRoom.TelegramBot.csproj" />
+  </ItemGroup>
+
+>>>>>>> main
 </Project>

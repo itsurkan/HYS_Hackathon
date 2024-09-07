@@ -23,11 +23,21 @@ namespace ZoomRoom.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Duration")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("RoomId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ScheduledTime")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("TimeZone")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -51,6 +61,10 @@ namespace ZoomRoom.Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

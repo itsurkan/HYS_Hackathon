@@ -3,7 +3,7 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Persistence
 {
-    public class SqliteDbContext : DbContext
+    public class SqliteDbContext(DbContextOptions<SqliteDbContext> options) : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Room> Rooms { get; set; }
@@ -13,7 +13,7 @@ namespace ZoomRoom.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=ZoomRoom.db");
+            optionsBuilder.UseSqlite($"Data Source= {Environment.CurrentDirectory}/ZoomRoom.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

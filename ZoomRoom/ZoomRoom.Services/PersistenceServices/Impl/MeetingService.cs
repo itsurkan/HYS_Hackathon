@@ -2,9 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence.Models;
 
-namespace ZoomRoom.Services.Services;
+namespace ZoomRoom.Services.PersistenceServices.Impl;
 
+<<<<<<< HEAD:ZoomRoom/ZoomRoom.Services/Services/MeetingService.cs
 public class MeetingService
+=======
+public class MeetingService(SqliteDbContext context) : IMeetingService
+>>>>>>> main:ZoomRoom/ZoomRoom.Services/PersistenceServices/Impl/MeetingService.cs
 {
     private readonly IMeetingRepository _meetingRepository;
 
