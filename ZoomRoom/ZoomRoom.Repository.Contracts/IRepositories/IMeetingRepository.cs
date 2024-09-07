@@ -3,7 +3,7 @@ using ZoomRoom.Repository.Contracts;
 
 namespace ZoomRoom.IRepository.Implementation.Repositories
 {
-    public interface IRoomRepository : IRepositoryBase<Meeting>
+    public interface IMeetingRepository : IRepositoryBase<Meeting>
     {
     }
 }

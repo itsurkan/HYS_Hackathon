@@ -4,11 +4,9 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Services.PersistenceServices.Impl;
 
-<<<<<<< HEAD:ZoomRoom/ZoomRoom.Services/Services/UserService.cs
-public class UserService
-=======
-public class UserService(SqliteDbContext context) : IUserService
->>>>>>> main:ZoomRoom/ZoomRoom.Services/PersistenceServices/Impl/UserService.cs
+
+public class UserService : IUserService
+
 {
     private readonly IUserRepository _userRepository;
 

@@ -4,11 +4,8 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Services.PersistenceServices.Impl;
 
-<<<<<<< HEAD:ZoomRoom/ZoomRoom.Services/Services/MeetingService.cs
-public class MeetingService
-=======
-public class MeetingService(SqliteDbContext context) : IMeetingService
->>>>>>> main:ZoomRoom/ZoomRoom.Services/PersistenceServices/Impl/MeetingService.cs
+
+public class MeetingService : IMeetingService
 {
     private readonly IMeetingRepository _meetingRepository;
 

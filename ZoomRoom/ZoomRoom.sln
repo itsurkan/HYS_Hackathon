@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution-items", ".solution-items", "{3D5CB47A-4E71-43A2-A330-422313298728}"
 	ProjectSection(SolutionItems) = preProject
 		..\Directory.Build.props = ..\Directory.Build.props
-		..\db\ZoomRoom.db = ..\db\ZoomRoom.db
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Persistence", "ZoomRoom.Persistence\ZoomRoom.Persistence.csproj", "{907DD9A7-42DF-48FF-9757-FF80A56DF49D}"
@@ -17,9 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Domain", "ZoomRoom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.TelegramBot", "ZoomRoom.TelegramBot\ZoomRoom.TelegramBot.csproj", "{610AD208-C7A2-447F-AFB9-D646C4B949F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomRoom.Web", "ZoomRoom.Web\ZoomRoom.Web.csproj", "{A9EBC7AF-BDB6-4F67-8343-3072DE94C9E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomRoom.Repository.Contracts", "ZoomRoom.Repository.Contracts\ZoomRoom.Repository.Contracts.csproj", "{B61BA87F-4CED-4292-89D3-719B397E4AD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomRoom.Bot.Host", "ZoomRoom.Bot.Host\ZoomRoom.Bot.Host.csproj", "{6FBF50CE-3920-4D45-AAE4-DA7727B6E0EB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{15F5716E-542D-479D-98A3-D3F840E0F913}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomRoom.Repository.Implementation", "ZoomRoom.Repository.Implementation\ZoomRoom.Repository.Implementation.csproj", "{E4993D33-A54D-4ECF-BD87-0B3EB56AED67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,17 +44,21 @@ Global
 		{610AD208-C7A2-447F-AFB9-D646C4B949F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{610AD208-C7A2-447F-AFB9-D646C4B949F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{610AD208-C7A2-447F-AFB9-D646C4B949F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9EBC7AF-BDB6-4F67-8343-3072DE94C9E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9EBC7AF-BDB6-4F67-8343-3072DE94C9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9EBC7AF-BDB6-4F67-8343-3072DE94C9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9EBC7AF-BDB6-4F67-8343-3072DE94C9E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FBF50CE-3920-4D45-AAE4-DA7727B6E0EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FBF50CE-3920-4D45-AAE4-DA7727B6E0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FBF50CE-3920-4D45-AAE4-DA7727B6E0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FBF50CE-3920-4D45-AAE4-DA7727B6E0EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B61BA87F-4CED-4292-89D3-719B397E4AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B61BA87F-4CED-4292-89D3-719B397E4AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B61BA87F-4CED-4292-89D3-719B397E4AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B61BA87F-4CED-4292-89D3-719B397E4AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4993D33-A54D-4ECF-BD87-0B3EB56AED67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4993D33-A54D-4ECF-BD87-0B3EB56AED67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4993D33-A54D-4ECF-BD87-0B3EB56AED67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4993D33-A54D-4ECF-BD87-0B3EB56AED67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B61BA87F-4CED-4292-89D3-719B397E4AD7} = {15F5716E-542D-479D-98A3-D3F840E0F913}
+		{E4993D33-A54D-4ECF-BD87-0B3EB56AED67} = {15F5716E-542D-479D-98A3-D3F840E0F913}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A42D1FFE-3581-4ACD-A665-98C9BB63618D}
