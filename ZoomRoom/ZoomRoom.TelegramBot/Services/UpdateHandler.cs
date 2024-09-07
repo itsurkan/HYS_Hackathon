@@ -10,7 +10,7 @@ using ZoomRoom.Services.PersistenceServices;
 
 namespace Telegrambot.Services;
 
-public class UpdateHandler(ILogger<UpdateHandler> logger) : IUpdateHandler
+public class UpdateHandler(IMeetingService service, IRoomService roomService, IUserService userService, ILogger<UpdateHandler> logger) : IUpdateHandler
 {
     Dictionary<long, TelegramBotContext> chatStates = new Dictionary<long, TelegramBotContext>();
 
