@@ -11,6 +11,7 @@
       <ProjectReference Include="..\ZoomRoom.Domain\ZoomRoom.Domain.csproj" />
       <ProjectReference Include="..\ZoomRoom.Persistence\ZoomRoom.Persistence.csproj" />
       <ProjectReference Include="..\ZoomRoom.Repository.Contracts\ZoomRoom.Repository.Contracts.csproj" />
+      <ProjectReference Include="..\ZoomRoom.Repository.Implementation\ZoomRoom.Repository.Implementation.csproj" />
     </ItemGroup>
 
     <ItemGroup>
