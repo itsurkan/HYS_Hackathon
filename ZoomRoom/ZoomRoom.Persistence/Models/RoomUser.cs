@@ -1,6 +1,8 @@
+using ZoomRoom.Domain.Entities;
+
 namespace ZoomRoom.Persistence.Models;
 
-public class RoomUser
+public class RoomUser : BaseEntity
 {
     public int RoomId { get; set; }
     public Room Room { get; set; }

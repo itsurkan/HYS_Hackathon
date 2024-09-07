@@ -1,42 +1,50 @@
 using Microsoft.EntityFrameworkCore;
-using ZoomRoom.Persistence;
+using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Services.Services;
 
-public class RoomService(SqliteDbContext context)
+public class RoomService
 {
+    private readonly IRoomRepository _roomRepository;
+
+    public RoomService(IRoomRepository roomRepository)
+    {
+        _roomRepository = roomRepository;
+    }
     public async Task<Room> CreateRoomAsync(Room room)
     {
-        context.Rooms.Add(room);
-        await context.SaveChangesAsync();
+        room = _roomRepository.Create(room);
+        await _roomRepository.SaveChangesAsync();
+
         return room;
     }
 
     public async Task<Room> UpdateRoomAsync(Room room)
     {
-        context.Rooms.Update(room);
-        await context.SaveChangesAsync();
+        _roomRepository.Update(room);
+        await _roomRepository.SaveChangesAsync();
+
         return room;
     }
 
     public async Task DeleteRoomAsync(int roomId)
     {
-        var room = await context.Rooms.FindAsync(roomId);
+        var room = await _roomRepository.FindByIdAsync(roomId);
         if (room != null)
         {
-            context.Rooms.Remove(room);
-            await context.SaveChangesAsync();
+            _roomRepository.Delete(room);
+            await _roomRepository.SaveChangesAsync();
         }
     }
 
     public async Task<Room> GetRoomByIdAsync(int roomId)
     {
-        return await context.Rooms.FindAsync(roomId);
+        return await _roomRepository.FindByIdAsync(roomId);
     }
 
     public async Task<List<Room>> GetAllRoomsAsync()
     {
-        return await context.Rooms.ToListAsync();
+        return await _roomRepository.GetAll().ToListAsync();
     }
 }

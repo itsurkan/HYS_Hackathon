@@ -1,8 +1,9 @@
+using ZoomRoom.Domain.Entities;
+
 namespace ZoomRoom.Persistence.Models;
 
-public class Meeting
+public class Meeting : BaseEntity
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public DateTime ScheduledTime { get; set; }
     public string ZoomLink { get; set; }

@@ -1,42 +1,50 @@
 using Microsoft.EntityFrameworkCore;
-using ZoomRoom.Persistence;
+using ZoomRoom.IRepository.Implementation.Repositories;
 using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.Services.Services;
 
-public class UserService(SqliteDbContext context)
+public class UserService
 {
+    private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
     public async Task<User> CreateUserAsync(User user)
     {
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        _userRepository.Create(user);
+        await _userRepository.SaveChangesAsync();
+
         return user;
     }
 
     public async Task<User> UpdateUserAsync(User user)
     {
-        context.Users.Update(user);
-        await context.SaveChangesAsync();
+        _userRepository.Update(user);
+        await _userRepository.SaveChangesAsync();
+
         return user;
     }
 
     public async Task DeleteUserAsync(long userId)
     {
-        var user = await context.Users.FindAsync(userId);
+        var user = await _userRepository.FindByIdAsync(userId);
         if (user != null)
         {
-            context.Users.Remove(user);
-            await context.SaveChangesAsync();
+            _userRepository.Delete(user);
+            await _userRepository.SaveChangesAsync();
         }
     }
 
     public async Task<User> GetUserByIdAsync(long userId)
     {
-        return await context.Users.FindAsync(userId);
+        return await _userRepository.FindByIdAsync(userId);
     }
 
     public async Task<List<User>> GetAllUsersAsync()
     {
-        return await context.Users.ToListAsync();
+        return await _userRepository.GetAll().ToListAsync();
     }
 }
