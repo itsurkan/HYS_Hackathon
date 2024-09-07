@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -6,17 +7,19 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegrambot.Services.TelegramBotStates;
 using ZoomRoom.Persistence;
+using ZoomRoom.Services.PersistenceServices;
+using ZoomRoom.Services.PersistenceServices.Impl;
 using ZoomRoom.Services.Services;
 
 namespace Telegrambot.Services;
 
 public class UpdateHandler : IUpdateHandler
 {
-    private readonly MeetingService _meetingService;
-    private readonly RoomService _roomService;
-    private readonly UserService _userService;
+    private readonly IMeetingService _meetingService;
+    private readonly IRoomService _roomService;
+    private readonly IUserService _userService;
 
-    public UpdateHandler(UserService userService, RoomService roomService, MeetingService meetingService)
+    public UpdateHandler(IUserService userService, IRoomService roomService, IMeetingService meetingService)
     {
         _userService = userService;
         _roomService = roomService;
@@ -56,7 +59,7 @@ public class UpdateHandler : IUpdateHandler
 
         if (update.Message.Text == "/start")
         {
-            using (var db = new SqliteDbContext())
+            using (var db = new SqliteDbContext(new DbContextOptions<SqliteDbContext>()))
             {
                 ZoomRoom.Persistence.Models.User user = db.Users.FirstOrDefault(u => u.Id == chatId);
                 if (user is null)
@@ -77,7 +80,7 @@ public class UpdateHandler : IUpdateHandler
 
         if (!chatStates.ContainsKey(chatId))
         {
-            chatStates[chatId] = new TelegramBotContext(botClient, chatId, 
+            chatStates[chatId] = new TelegramBotContext(botClient, chatId,
                  _userService, _roomService,_meetingService
             );
         }

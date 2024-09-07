@@ -1,4 +1,12 @@
+using Microsoft.Extensions.Options;
 using MudBlazor.Services;
+using Telegram.Bot;
+using Telegram.Bot.Polling;
+using Telegrambot.Services;
+using Telegrambot.Services.ReceiverService;
+using ZoomRoom.Persistence;
+using ZoomRoom.Services.PersistenceServices.Impl;
+using ZoomRoom.TelegramBot;
 using ZoomRoom.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
