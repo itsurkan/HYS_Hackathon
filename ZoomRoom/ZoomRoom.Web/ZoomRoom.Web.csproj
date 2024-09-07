@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ZoomRoom.Bot.Host\ZoomRoom.Bot.Host.csproj" />
     <ProjectReference Include="..\ZoomRoom.Services\ZoomRoom.Services.csproj" />
     <ProjectReference Include="..\ZoomRoom.TelegramBot\ZoomRoom.TelegramBot.csproj" />
   </ItemGroup>
-
 </Project>

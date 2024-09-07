@@ -22,7 +22,7 @@ public class MeetingManagerState : State
             .GetUserByIdAsync(_telegramBotContext.chatId)
             .Result
             .RoomUsers
-            .Select(ru => _telegramBotContext.roomService.GetRoomByIdAsync(ru.RoomId).Result)
+            .Select(ru => _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id).Result)
             .ToList();
 
         List<Meeting> meetings = telegramBotContext.meetingService.GetAllMeetingsAsync().Result;

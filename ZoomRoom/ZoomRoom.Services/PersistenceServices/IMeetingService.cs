@@ -6,7 +6,7 @@ public interface IMeetingService
 {
     Task<Meeting> CreateMeetingAsync(Meeting meeting);
     Task<Meeting> UpdateMeetingAsync(Meeting meeting);
-    Task DeleteMeetingAsync(int meetingId);
-    Task<Meeting?> GetMeetingByIdAsync(int meetingId);
+    Task DeleteMeetingAsync(long meetingId);
+    Task<Meeting?> GetMeetingByIdAsync(long meetingId);
     Task<List<Meeting>> GetAllMeetingsAsync();
 }

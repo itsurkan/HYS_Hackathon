@@ -40,7 +40,7 @@ public class AddUsersState : State
         {
             ZoomRoom.Persistence.Models.User newUser = new ZoomRoom.Persistence.Models.User();
             newUser.Username = user;
-            newUser.RoomUsers.Add(new RoomUser { RoomId = _telegramBotContext.roomData.Id, UserId = newUser.Id });
+            newUser.RoomUsers.Add(new RoomUser { Id = _telegramBotContext.roomData.Id, UserId = newUser.Id });
 
             await _telegramBotContext!.userService.CreateUserAsync(newUser);
         }

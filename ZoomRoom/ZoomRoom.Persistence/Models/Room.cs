@@ -1,10 +1,13 @@
+using ZoomRoom.Domain.Entities;
+
 namespace ZoomRoom.Persistence.Models;
 
-public class Room
+public class Room : BaseEntity
 {
-    public int Id { get; set; }
-    public string Name { get; set; }= String.Empty;
+
+    public string Name { get; set; }
+    public ICollection<RoomUser> RoomUsers { get; set; }
+    public ICollection<Meeting> Meetings { get; set; }
     public string Password { get; set; } = String.Empty;
-    public ICollection<RoomUser> RoomUsers { get; set; } 
-    public ICollection<Meeting> Meetings { get; set; } 
+
 }
