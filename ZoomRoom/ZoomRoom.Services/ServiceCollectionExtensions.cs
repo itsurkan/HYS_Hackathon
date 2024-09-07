@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using ZoomRoom.IRepository.Implementation.Repositories;
+using ZoomRoom.Repository.Implementation.Repositories;
 using ZoomRoom.Services.PersistenceServices;
 using ZoomRoom.Services.PersistenceServices.Impl;
 
@@ -11,6 +13,9 @@ public static class ServiceCollectionExtensions // call in registration
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IMeetingService, MeetingService>();
         services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IRoomRepository, RoomRepository>();
+        services.AddScoped<IMeetingRepository, MeetingRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         // services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=ZoomRoom.db"));
         return services;
     }

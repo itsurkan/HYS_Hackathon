@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution-items", ".solution-items", "{3D5CB47A-4E71-43A2-A330-422313298728}"
 	ProjectSection(SolutionItems) = preProject
 		..\Directory.Build.props = ..\Directory.Build.props
-		ZoomRoom.db = ZoomRoom.db
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoomRoom.Persistence", "ZoomRoom.Persistence\ZoomRoom.Persistence.csproj", "{907DD9A7-42DF-48FF-9757-FF80A56DF49D}"

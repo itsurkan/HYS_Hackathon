@@ -39,42 +39,49 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
         }
 
         long chatId = update.Message!.Chat.Id;
-
-        if (update.Message.Text == "/start")
+        try
         {
+            if (update.Message.Text == "/start")
             {
-                var user = await userService.GetUserByIdAsync(chatId);
-                if (user is null)
                 {
-                    user = new User
+                    var user = await userService.GetUserByIdAsync(chatId);
+                    if (user is null)
                     {
-                        Id = chatId,
-                        Username = update.Message.Chat.Username ?? String.Empty,
-                        FirstName = update.Message.Chat.FirstName ?? string.Empty,
-                        LastName = update.Message.Chat.LastName ?? String.Empty
-                    };
-                    await userService.CreateUserAsync(user);
+                        user = new User
+                        {
+                            Id = chatId,
+                            Username = update.Message.Chat.Username ?? String.Empty,
+                            FirstName = update.Message.Chat.FirstName ?? string.Empty,
+                            LastName = update.Message.Chat.LastName ?? String.Empty
+                        };
+                        await userService.CreateUserAsync(user);
+                    }
                 }
             }
-        }
 
-        if (!chatStates.ContainsKey(chatId))
+            if (!chatStates.ContainsKey(chatId))
+            {
+                chatStates[chatId] = new TelegramBotContext(
+                    botClient,
+                    chatId,
+                    userService,
+                    roomService,
+                    meetingService
+                );
+            }
+
+
+            chatStates[chatId].state.HandleAnswer(update.Message?.Text);
+
+
+            // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
+            //                             chatStates[chatId].state.textMessage,
+            //                             replyMarkup: chatStates[chatId].state.keyboardMarkup);
+        }
+        catch (Exception e)
         {
-            chatStates[chatId] = new TelegramBotContext(
-                botClient,
-                chatId,
-                userService,
-                roomService,
-                meetingService
-            );
+            Console.WriteLine(e);
+            throw;
         }
-
-
-        chatStates[chatId].state.HandleAnswer(update.Message?.Text);
-
-
-        // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
-        //                             chatStates[chatId].state.textMessage,
-        //                             replyMarkup: chatStates[chatId].state.keyboardMarkup);
     }
 }
