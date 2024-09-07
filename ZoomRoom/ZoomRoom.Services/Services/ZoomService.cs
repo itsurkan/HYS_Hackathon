@@ -91,15 +91,26 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
             agenda = requestBody.agenda
         };
 
+
+
         request.Content = new StringContent(JsonConvert.SerializeObject(meetingDetails), Encoding.UTF8, "application/json");
 
         var response = await _httpClient.SendAsync(request);
-        if (response.IsSuccessStatusCode)
-        {
-            return true;
-        }
-
-        return false;
+        return response.IsSuccessStatusCode;
     }
+    public async Task<bool> StartMeetingAsync(string accessToken, string meetingId)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Patch, $"https://api.zoom.us/v2/meetings/{meetingId}/status");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
+        var statusUpdate = new
+        {
+            action = "start"
+        };
+
+        request.Content = new StringContent(JsonConvert.SerializeObject(statusUpdate), Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.SendAsync(request);
+        return response.IsSuccessStatusCode;
+    }
 }

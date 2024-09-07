@@ -17,8 +17,7 @@ public class MeetingRoomState : State
 
         if (telegramBotContext.botClient is not null)
         {
-            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsWithUserAsync().GetAwaiter().GetResult()
-                    .ToList();
+            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsWithUserAsync().GetAwaiter().GetResult().ToList();
 
             // todo handle no rooms
 
