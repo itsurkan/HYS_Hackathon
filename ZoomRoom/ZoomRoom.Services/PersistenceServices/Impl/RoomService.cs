@@ -29,7 +29,7 @@ public class RoomService : IRoomService
         return room;
     }
 
-    public async Task DeleteRoomAsync(int roomId)
+    public async Task DeleteRoomAsync(long roomId)
     {
         var room = await _roomRepository.FindByIdAsync(roomId);
         if (room != null)
@@ -39,7 +39,7 @@ public class RoomService : IRoomService
         }
     }
 
-    public async Task<Room> GetRoomByIdAsync(int roomId)
+    public async Task<Room> GetRoomByIdAsync(long roomId)
     {
         return await _roomRepository.FindByIdAsync(roomId);
     }

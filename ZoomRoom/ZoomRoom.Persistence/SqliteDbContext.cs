@@ -20,10 +20,10 @@ namespace ZoomRoom.Persistence
         {
             modelBuilder.Entity<RoomUser>(builder =>
             {
-                builder.HasKey(ru => new { ru.RoomId, ru.UserId });
+                builder.HasKey(ru => new { ru.Id, ru.UserId });
                 builder.HasOne(ru => ru.Room)
                     .WithMany(r => r.RoomUsers)
-                    .HasForeignKey(ru => ru.RoomId);
+                    .HasForeignKey(ru => ru.Id);
                 builder.HasOne(ru => ru.User)
                     .WithMany(u => u.RoomUsers)
                     .HasForeignKey(ru => ru.UserId);

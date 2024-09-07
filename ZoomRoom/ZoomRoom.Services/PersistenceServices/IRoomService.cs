@@ -6,7 +6,7 @@ public interface IRoomService
 {
     Task<Room> CreateRoomAsync(Room room);
     Task<Room> UpdateRoomAsync(Room room);
-    Task DeleteRoomAsync(int roomId);
-    Task<Room?> GetRoomByIdAsync(int roomId);
+    Task DeleteRoomAsync(long roomId);
+    Task<Room?> GetRoomByIdAsync(long roomId);
     Task<List<Room>> GetAllRoomsAsync();
 }
