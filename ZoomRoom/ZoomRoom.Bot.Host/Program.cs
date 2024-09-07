@@ -1,21 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Telegram.Bot.Polling;
 using Telegrambot.Services;
 using Telegrambot.Services.ReceiverService;
+using ZoomRoom.Bot.Host;
 using ZoomRoom.Persistence;
 using ZoomRoom.Services;
-using ZoomRoom.TelegramBot;
 using ZoomRoom.TelegramBot.Services;
+using ZoomRoom.TelegramBot.Services.ReceiverService;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         // Register Bot configuration
-        services.Configure<BotSettings>(context.Configuration.GetSection("BotConfiguration"));
+        services.Configure<BotSettings>(context.Configuration.GetSection("BotSettings"));
 
         // Register named HttpClient to benefits from IHttpClientFactory
         // and consume it with ITelegramBotClient typed client.
@@ -32,7 +31,6 @@ IHost host = Host.CreateDefaultBuilder(args)
             });
         services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=../db/ZoomRoom.db"));
         services.AddScoped<IUpdateHandler, UpdateHandler>();
-        services.AddHostedService<PollingService>();
         services.AddHostedService<PollingService>();
         services.AddScoped<IReceiverService, ReceiverService>();
         services.AddPersistenceServices();

@@ -36,18 +36,7 @@ builder.Services.AddScoped<IUpdateHandler, UpdateHandler>();
 builder.Services.AddTransient<IReceiverService, ReceiverService>();
 builder.Services.AddHostedService<PollingService>();
 
-builder.Services.AddHttpClient("telegram_bot_client").RemoveAllLoggers().AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
-    {
-        BotSettings? botSettings = sp.GetService<IOptions<BotSettings>>()?.Value;
 
-        if (botSettings is null)
-        {
-            throw new InvalidOperationException("Bot settings not found");
-        }
-
-        TelegramBotClientOptions options = new(botSettings.BotToken);
-        return new TelegramBotClient(options, httpClient);
-    });
 
 var app = builder.Build();
 
