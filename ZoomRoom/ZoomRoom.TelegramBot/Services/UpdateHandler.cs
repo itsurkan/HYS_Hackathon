@@ -11,16 +11,16 @@ namespace ZoomRoom.TelegramBot.Services;
 
 public class UpdateHandler(IUserService userService, TelegramBotContext botContext, ILogger<UpdateHandler> logger) : IUpdateHandler
 {
-    readonly Dictionary<long, TelegramBotContext> chatStates = new ();
+    readonly Dictionary<long, TelegramBotContext> chatStates = [];
 
     public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }
 
-    public async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callbackQuery, CancellationToken cancellationToken)
+    private async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callbackQuery, CancellationToken cancellationToken)
     {
-        long chatId = callbackQuery.From.Id;
+        var chatId = callbackQuery.From.Id;
 
         chatStates[chatId].state.HandleCallbackQuery(callbackQuery);
         await chatStates[chatId].state.Initialize();
@@ -44,38 +44,38 @@ public class UpdateHandler(IUserService userService, TelegramBotContext botConte
         {
             if (update.Message.Text == "/start")
             {
-                {
-                    var user = await userService.GetUserByIdAsync(chatId);
-                    if (user is null)
-                    {
-                        user = new User
-                        {
-                            Id = chatId,
-                            Username = update.Message.Chat.Username ?? String.Empty,
-                            FirstName = update.Message.Chat.FirstName ?? string.Empty,
-                            LastName = update.Message.Chat.LastName ?? String.Empty
-                        };
-                        await userService.CreateUserAsync(user);
-                    }
-                }
+                await AddUserIfNotExists(update, chatId);
             }
 
-            if (!chatStates.ContainsKey(chatId))
+            if (!chatStates.TryGetValue(chatId, out TelegramBotContext? value))
             {
-                chatStates[chatId] = botContext.Init(botClient, chatId);
+                value = botContext.Init(botClient, chatId);
+                chatStates[chatId] = value;
             }
 
-            var state = chatStates[chatId].state;
-            await state.HandleAnswer(update.Message?.Text);
-
-            // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
-            //                             chatStates[chatId].state.textMessage,
-            //                             replyMarkup: chatStates[chatId].state.keyboardMarkup);
+            var state = value.state;
+            await state.HandleAnswer(update.Message.Text);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+            logger.LogError("Error while handling update: {Message}", e.Message);
+        }
+    }
+
+    private async Task AddUserIfNotExists(Update update, long chatId)
+    {
+        var user = await userService.GetUserByIdAsync(chatId);
+        if (user is null)
+        {
+            user = new User
+            {
+                Id = chatId,
+                Username = update.Message.Chat.Username ?? String.Empty,
+                FirstName = update.Message.Chat.FirstName ?? string.Empty,
+                LastName = update.Message.Chat.LastName ?? String.Empty
+            };
+            await userService.CreateUserAsync(user);
         }
     }
 }

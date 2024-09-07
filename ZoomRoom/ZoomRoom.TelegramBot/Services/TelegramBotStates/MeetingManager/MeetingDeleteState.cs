@@ -6,15 +6,8 @@ using ZoomRoom.Persistence.Models;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingManager;
 
-public class MeetingDeleteState : State
+public class MeetingDeleteState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
-    public MeetingDeleteState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-
-
-    }
-
     public async override Task Initialize()
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");

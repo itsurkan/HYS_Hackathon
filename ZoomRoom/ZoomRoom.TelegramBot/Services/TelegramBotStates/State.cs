@@ -5,36 +5,20 @@ namespace ZoomRoom.TelegramBot.Services.TelegramBotStates;
 
 public class State
 {
-    protected ReplyKeyboardMarkup _keyboardMarkup;
-
-    public ReplyKeyboardMarkup keyboardMarkup
-    {
-        get => _keyboardMarkup;
-        set => _keyboardMarkup = value;
-    }
+    protected ReplyKeyboardMarkup keyboardMarkup;
 
     protected TelegramBotContext _telegramBotContext;
 
-    private string _textMessage;
-    public string textMessage
-    {
-        get => _textMessage ?? "empty message";
-        set => _textMessage = value;
-    }
+    protected string textMessage;
 
-
-    public State(TelegramBotContext telegramBotContext)
+    protected State(TelegramBotContext telegramBotContext)
     {
-        if (telegramBotContext == null)
-        {
-            throw new ArgumentNullException(nameof(telegramBotContext));
-        }
+        ArgumentNullException.ThrowIfNull(telegramBotContext);
 
         _telegramBotContext = telegramBotContext;
-        _keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("NOT IMPLEMENTED");
+        keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("NOT IMPLEMENTED");
 
         // _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
-
     }
 
     public virtual Task Initialize()
@@ -44,26 +28,17 @@ public class State
 
     public virtual Task HandleAnswer(string answer)
     {
-        if (_telegramBotContext == null)
+        _telegramBotContext.state = answer switch
         {
-            throw new ArgumentNullException(nameof(_telegramBotContext));
-        }
-
-        switch (answer)
-        {
-            case "NOT IMPLEMENTED":
-                _telegramBotContext.state = new MainMenu(_telegramBotContext);
-                break;
-            default:
-                _telegramBotContext.state = this;
-                break;
-        }
+            "NOT IMPLEMENTED" => new MainMenu(_telegramBotContext),
+            _ => this
+        };
 
         return Task.CompletedTask;
     }
 
     public virtual void HandleCallbackQuery(CallbackQuery callbackQuery)
     {
-        throw new Exception("Not callback query handler is called!!");
+        throw new NotImplementedException("Not callback query handler is called!!");
     }
 }

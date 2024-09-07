@@ -11,26 +11,21 @@ public class AddUsersState(TelegramBotContext telegramBotContext) : State(telegr
         textMessage = "Введіть логіни користувачів через кому:";
 
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
-        await _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+        await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
     }
 
     public async override Task HandleAnswer(string answer)
     {
-        if (_telegramBotContext is not null)
+        switch (answer)
         {
-            switch (answer)
-            {
-                case "Назад":
-                    _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
-                    await _telegramBotContext.state.Initialize();
-                    break;
-                default:
-                    await AddUsers(answer);
-                    break;
-            }
+            case "Назад":
+                _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+                await _telegramBotContext.state.Initialize();
+                break;
+            default:
+                await AddUsers(answer);
+                break;
         }
-
-        return;
     }
 
     private async Task AddUsers(string answer)
@@ -42,14 +37,9 @@ public class AddUsersState(TelegramBotContext telegramBotContext) : State(telegr
             {
                 Username = user
             };
-            var existingUser = await _telegramBotContext!.userService.GetUserByUsernameAsync(user);
+            var existingUser = await _telegramBotContext.userService.GetUserByUsernameAsync(user) ?? await _telegramBotContext.userService.CreateUserAsync(newUser);
 
-            if (existingUser is null)
-            {
-                existingUser = await _telegramBotContext!.userService.CreateUserAsync(newUser);
-            }
-
-            var userRoom = await _telegramBotContext!.userService.GetUserRoomAsync(existingUser.Id, _telegramBotContext.roomData.Id);
+            var userRoom = await _telegramBotContext.userService.GetUserRoomAsync(existingUser!.Id, _telegramBotContext.roomData.Id);
             if (!userRoom)
             {
                 var newRoomUser = new RoomUser { Id = _telegramBotContext.roomData.Id, UserId = existingUser.Id };

@@ -11,9 +11,8 @@ public class RoomManagerState(TelegramBotContext telegramBotContext) : State(tel
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
 
-
-        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
-        List<Room> rooms = await _telegramBotContext.roomService.GetAllRoomsAsync();
+        var inlineKeyboard = new InlineKeyboardMarkup();
+        var rooms = await _telegramBotContext.roomService.GetAllRoomsAsync();
 
         foreach (Room room in rooms) inlineKeyboard.AddButtons(room.Name);
 
@@ -26,8 +25,6 @@ public class RoomManagerState(TelegramBotContext telegramBotContext) : State(tel
 
     public async override Task HandleAnswer(string answer)
     {
-        if (_telegramBotContext is not null)
-        {
             switch (answer)
             {
                 case "Назад":
@@ -38,8 +35,6 @@ public class RoomManagerState(TelegramBotContext telegramBotContext) : State(tel
                     _telegramBotContext.state = this;
                     break;
             }
-
-        }
     }
 
     public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
@@ -47,5 +42,4 @@ public class RoomManagerState(TelegramBotContext telegramBotContext) : State(tel
         _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, callbackQuery.Data);
         await _telegramBotContext.state.Initialize();
     }
-
 }

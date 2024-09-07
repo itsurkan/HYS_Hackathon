@@ -3,14 +3,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomBuilder;
 
-public class RoomNameState : State
+public class RoomNameState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
-    public RoomNameState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-
-    }
-
     public override async Task Initialize()
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");

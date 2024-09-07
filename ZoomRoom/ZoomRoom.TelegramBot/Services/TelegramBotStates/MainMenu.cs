@@ -12,21 +12,17 @@ public class MainMenu : State
     public MainMenu(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
+
         textMessage = "Вітаємо в ZoomRoom! Що бажаєте зробити?";
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Створити кімнату", "Спланувати зустріч").
             AddNewRow().AddButtons("Управління кімнатами", "Управління зустрічами")
             .AddNewRow().AddButtons("Видалити зустріч");
 
-        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+        _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
     }
 
     public async override Task HandleAnswer(string answer)
     {
-        if (_telegramBotContext == null)
-        {
-            throw new ArgumentNullException(nameof(_telegramBotContext));
-        }
-
         switch (answer)
         {
             case "Створити кімнату":

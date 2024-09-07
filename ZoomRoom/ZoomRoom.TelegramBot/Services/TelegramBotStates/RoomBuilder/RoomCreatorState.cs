@@ -4,7 +4,6 @@ using ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomBuilder;
 
-
 public class RoomCreatorState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
     public override async Task Initialize()
@@ -29,30 +28,23 @@ public class RoomCreatorState(TelegramBotContext telegramBotContext) : State(tel
             $"Ви можете використовувати ці дані для входу у кімнату"
         );
         await _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Що виконати далі?", replyMarkup: keyboardMarkup);
-
-
     }
 
     public override async Task HandleAnswer(string answer)
     {
-        if (_telegramBotContext is not null)
+        switch (answer)
         {
-            switch (answer)
-            {
-                case "До головного меню":
-                    _telegramBotContext.state = new MainMenu(_telegramBotContext);
-                    await _telegramBotContext.state.Initialize();
-                    break;
-                case "Спланувати зустріч":
-                    _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
-                    await _telegramBotContext.state.Initialize();
-                    break;
-                default:
-                    _telegramBotContext.state = this;
-                    break;
-            }
-
+            case "До головного меню":
+                _telegramBotContext.state = new MainMenu(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
+                break;
+            case "Спланувати зустріч":
+                _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
+                break;
+            default:
+                _telegramBotContext.state = this;
+                break;
         }
-
     }
 }

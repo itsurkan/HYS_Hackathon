@@ -1,4 +1,3 @@
-using System;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -34,24 +33,21 @@ public class MeetingManagerState(TelegramBotContext telegramBotContext) : State(
             string meetingStatus = DateTime.Compare(DateTime.Now, meeting.ScheduledTime.AddMinutes(meeting.Duration)) > 0 ? "Завершено" : "Не завершено";
 
             button.AddButtons($"{meeting.Title}, {meetingStatus}");
-            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Доступні мітинги",  replyMarkup: button);
+            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Доступні мітинги", replyMarkup: button);
         }
     }
 
     public async override Task HandleAnswer(string answer)
     {
-        if (_telegramBotContext is not null)
+        switch (answer)
         {
-            switch (answer)
-            {
-                case "Назад":
-                    _telegramBotContext.state = new MainMenu(_telegramBotContext);
-                    await _telegramBotContext.state.Initialize();
-                    break;
-                default:
-                    _telegramBotContext.state = this;
-                    break;
-            }
+            case "Назад":
+                _telegramBotContext.state = new MainMenu(_telegramBotContext);
+                await _telegramBotContext.state.Initialize();
+                break;
+            default:
+                _telegramBotContext.state = this;
+                break;
         }
     }
 

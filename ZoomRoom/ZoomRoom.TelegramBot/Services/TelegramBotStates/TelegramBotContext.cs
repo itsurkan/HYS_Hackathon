@@ -13,20 +13,22 @@ public class TelegramBotContext(IUserService userService, IRoomService roomServi
 
     public IZoomService zoomService { get; } = zoomService;
 
+    public bool MeetingFormIsFilled { get; set; }
+
+    public ITelegramBotClient botClient;
+
     public State state;
 
-    public ITelegramBotClient? botClient;
     public long chatId;
 
     public Meeting meetingData = new ();
-    public bool MeetingFormIsFilled { get; set; }
 
-    public Room roomData = new Room();
+    public Room roomData = new ();
 
-    public TelegramBotContext Init(ITelegramBotClient botClient, long chatId)
+    public TelegramBotContext Init(ITelegramBotClient client, long userChatId)
     {
-        this.botClient = botClient;
-        this.chatId = chatId;
+        botClient = client;
+        chatId = userChatId;
         state = new MainMenu(this);
         return this;
     }
