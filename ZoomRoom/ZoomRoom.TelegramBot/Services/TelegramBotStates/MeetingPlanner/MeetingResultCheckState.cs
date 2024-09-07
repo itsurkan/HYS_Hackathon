@@ -4,6 +4,7 @@ using TelegramBot.Services;
 using ZoomRoom.Domain.Requests;
 using ZoomRoom.Domain.Responses;
 using ZoomRoom.Persistence.Models;
+using ZoomRoom.TelegramBot.Services.TelegramBotStates.MeatingPlanner;
 
 namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
 

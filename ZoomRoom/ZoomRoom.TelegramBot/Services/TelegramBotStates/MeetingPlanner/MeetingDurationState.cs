@@ -1,7 +1,9 @@
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegrambot.Services.TelegramBotStates;
+using Telegrambot.Services.TelegramBotStates.MeatingPlanner;
 
-namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
+namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeatingPlanner;
 
 public class MeetingDurationState : State
 {
@@ -31,27 +33,19 @@ public class MeetingDurationState : State
                 _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
                 return;
             }
+
+            if (int.TryParse(answer, out var duration))
+            {
+                _telegramBotContext.meetingData.Duration = duration;
+
+                _telegramBotContext.state = _telegramBotContext.MeetingFormIsFilled
+                    ? new MeetingResultCheckState(_telegramBotContext)
+                    : new MeetingPasscodeState(_telegramBotContext);
+            }
             else
             {
-                int duration;
-                if (Int32.TryParse(answer, out duration))
-                {
-                    _telegramBotContext.meetingData.Duration = duration;
-
-                    if (_telegramBotContext.MeetingFormIsFilled)
-                    {
-                        _telegramBotContext.state = new MeetingResultCheckState(_telegramBotContext);
-                        return;
-                    }
-                    else _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
-                }
-                else
-                {
-                    await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Невірний формат тривалості");
-                    _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
-                    return;
-                }
-
+                await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Невірний формат тривалості");
+                _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
             }
         }
     }
