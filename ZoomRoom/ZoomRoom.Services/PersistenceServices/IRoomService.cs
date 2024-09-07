@@ -5,6 +5,7 @@ namespace ZoomRoom.Services.PersistenceServices;
 public interface IRoomService
 {
     Task<Room> CreateRoomAsync(Room room);
+    Task<RoomUser> CreateRoomUserAsync(RoomUser room);
     Task<Room> UpdateRoomAsync(Room room);
     Task DeleteRoomAsync(long roomId);
     Task<Room?> GetRoomByIdAsync(long roomId);

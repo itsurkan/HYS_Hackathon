@@ -13,7 +13,7 @@ public class State
         set => _keyboardMarkup = value;
     }
 
-    protected TelegramBotContext? _telegramBotContext;
+    protected TelegramBotContext _telegramBotContext;
 
     private string _textMessage;
     public string textMessage

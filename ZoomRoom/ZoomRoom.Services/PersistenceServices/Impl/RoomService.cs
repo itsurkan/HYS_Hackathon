@@ -15,6 +15,13 @@ public class RoomService(IRoomRepository roomRepository) : IRoomService
         return room;
     }
 
+    public async Task<RoomUser> CreateRoomUserAsync(RoomUser room)
+    {
+        roomRepository.AddRoomUser(room);
+        await roomRepository.SaveChangesAsync();
+        return room;
+    }
+
     public async Task<Room> UpdateRoomAsync(Room room)
     {
         roomRepository.Update(room);

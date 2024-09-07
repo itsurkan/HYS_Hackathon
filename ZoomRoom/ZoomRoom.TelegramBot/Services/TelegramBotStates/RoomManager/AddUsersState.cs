@@ -52,8 +52,8 @@ public class AddUsersState(TelegramBotContext telegramBotContext) : State(telegr
             var userRoom = await _telegramBotContext!.userService.GetUserRoomAsync(existingUser.Id, _telegramBotContext.roomData.Id);
             if (!userRoom)
             {
-                existingUser.RoomUsers.Add(new RoomUser { Id = _telegramBotContext.roomData.Id, UserId = existingUser.Id });
-                await _telegramBotContext.userService.UpdateUserAsync(existingUser);
+                var newRoomUser = new RoomUser { Id = _telegramBotContext.roomData.Id, UserId = existingUser.Id };
+                await _telegramBotContext.roomService.CreateRoomUserAsync(newRoomUser);
             }
         }
 

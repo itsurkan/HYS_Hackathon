@@ -20,7 +20,7 @@ public class MeetingRoomState(TelegramBotContext telegramBotContext) : State(tel
 
         if (_telegramBotContext.botClient is not null)
         {
-            List<Room> rooms = await _telegramBotContext.roomService.GetAllRoomsWithUserAsync();
+            List<Room> rooms = await _telegramBotContext.roomService.GetAllRoomsAsync();
 
             InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
             foreach (Room room in rooms)

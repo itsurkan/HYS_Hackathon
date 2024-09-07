@@ -3,7 +3,6 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using ZoomRoom.Persistence.Models;
 using ZoomRoom.Services.PersistenceServices;
-
 namespace ZoomRoom.Web.Components
 {
     public partial class UpdateMeetingComponent : ComponentBase
@@ -19,7 +18,7 @@ namespace ZoomRoom.Web.Components
 
         protected override void OnInitialized()
         {
-            
+
             if (Model.ScheduledTime != default)
             {
                 _time = Model.ScheduledTime.TimeOfDay;
@@ -57,5 +56,9 @@ namespace ZoomRoom.Web.Components
             }
         }
 
+        private void SetSchedule(DateTime obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

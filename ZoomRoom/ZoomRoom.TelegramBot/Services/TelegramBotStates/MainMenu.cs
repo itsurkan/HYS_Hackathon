@@ -18,7 +18,6 @@ public class MainMenu : State
             .AddNewRow().AddButtons("Видалити зустріч");
 
         _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
-
     }
 
     public async override Task HandleAnswer(string answer)

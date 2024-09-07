@@ -13,7 +13,7 @@
             <br />
             <MudTextField @bind-Value="Model.Duration" MaxLength="200" Label="Тривалість" Variant="Variant.Text" />
             <br />
-            <MudDatePicker Label="Початок" MinDate="DateTime.UtcNow.AddDays(-1)" Editable="true" DateChanged="SetSchedule" DateFormat="dd.MM.yyyy" Date="Model.ScheduledTime" Placeholder="Виберіть час проведення" />
+            <MudDatePicker Label="Початок" MinDate="DateTime.UtcNow.AddDays(-1)" Editable="true" DateFormat="dd.MM.yyyy" Date="Model.ScheduledTime" Placeholder="Виберіть час проведення" />
             <br />
             <MudTimePicker TimeChanged="SetTime" Label="Час" AmPm="true" Time="_time" />
         </EditForm>

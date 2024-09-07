@@ -4,13 +4,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
 
-public class MeetingCreatorState : State
+public class MeetingCreatorState(TelegramBotContext telegramBotContext) : State(telegramBotContext)
 {
-    public MeetingCreatorState(TelegramBotContext telegramBotContext) :
-        base(telegramBotContext)
-    {
-    }
-
     public override async Task Initialize()
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");

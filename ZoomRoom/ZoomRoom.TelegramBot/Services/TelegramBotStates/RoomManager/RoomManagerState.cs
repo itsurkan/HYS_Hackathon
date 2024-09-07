@@ -13,7 +13,7 @@ public class RoomManagerState(TelegramBotContext telegramBotContext) : State(tel
 
 
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
-        List<Room> rooms = await _telegramBotContext.roomService.GetAllRoomsWithUserAsync();
+        List<Room> rooms = await _telegramBotContext.roomService.GetAllRoomsAsync();
 
         foreach (Room room in rooms) inlineKeyboard.AddButtons(room.Name);
 
