@@ -49,4 +49,10 @@ public class UserService : IUserService
     {
         return await _userRepository.GetAll().ToListAsync();
     }
+
+    public async Task<User?> GetUserByUsernameAsync(string user) =>
+        await _userRepository.GetAll().Where(x=>x.Username ==user).FirstOrDefaultAsync();
+
+    public async Task<bool> GetUserRoomAsync(long existingUserId, long roomDataId) =>
+        await _userRepository.GetAll().Where(x=>x.Id == existingUserId && x.RoomUsers.Any(r=>r.Id == roomDataId)).AnyAsync();
 }
