@@ -2,11 +2,11 @@
     <DataAnnotationsValidator />
     <MudDialog>
         <DialogContent>
-            <MudTextField ReadOnly="true" @bind-Value="Model.ZoomLink" Label="Посилання" Variant="Variant.Text" />
+            <MudTextField @bind-Value="Model.Duration" ReadOnly="true" Label="Тривалість" Variant="Variant.Text" />
             <br/>
-            <MudTextField ReadOnly="true" @bind-Value="Model.RoomId" Label="Room ID" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="Model.ZoomMeetingId" ReadOnly="true" Label="Zoom Room ID" Variant="Variant.Text"></MudTextField>
             <br />
-            <MudTextField ReadOnly="true" @bind-Value="Model.DateCreated" Label="Дата створення" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="Model.DateCreated" ReadOnly="true" Label="Дата створення" Variant="Variant.Text"></MudTextField>
             <br />
         </DialogContent>
         <DialogActions>
