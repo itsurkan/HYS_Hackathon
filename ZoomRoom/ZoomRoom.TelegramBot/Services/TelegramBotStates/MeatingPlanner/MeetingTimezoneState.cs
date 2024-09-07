@@ -17,6 +17,15 @@ public class MeetingTimezoneState : State
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
         textMessage = "Оберіть часовий пояс зустрічі:";
 
+
+
+
+
+    }
+
+    public override async Task Initialize()
+    {
+
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
         inlineKeyboard.AddButtons("UTC +12", "UTC +11", "UTC +10", "UTC +9").AddNewRow().
                         AddButtons("UTC +8", "UTC +7", "UTC +6", "UTC +5").AddNewRow().
@@ -26,17 +35,16 @@ public class MeetingTimezoneState : State
                         AddButtons("UTC -5", "UTC -6", "UTC -7", "UTC -8").AddNewRow().
                         AddButtons("UTC -9", "UTC -10", "UTC- 11", "UTC -12").AddNewRow();
 
-        _telegramBotContext!.botClient!.SendTextMessageAsync(
+        await _telegramBotContext!.botClient!.SendTextMessageAsync(
                 chatId: _telegramBotContext.chatId,
                 text: "Оберіть часовий пояс зустрічі:",
                 replyMarkup: inlineKeyboard
             );
-
     }
 
     public override async Task HandleAnswer(string answer)
     {
-        if(skipMessageHandling) return;
+        if (skipMessageHandling) return;
 
         if (_telegramBotContext is not null)
         {
@@ -50,7 +58,8 @@ public class MeetingTimezoneState : State
             {
                 _telegramBotContext.state = new MeetingPasscodeState(_telegramBotContext);
                 return;
-            } else
+            }
+            else
             {
                 await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть часовий пояс із списку!");
                 _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
@@ -71,7 +80,7 @@ public class MeetingTimezoneState : State
             "UTC +12" => UTCTimeZone.UTCPlus12,
             "UTC +11" => UTCTimeZone.UTCPlus11,
             "UTC +10" => UTCTimeZone.UTCPlus10,
-            "UTC +9" =>  UTCTimeZone.UTCPlus9,
+            "UTC +9" => UTCTimeZone.UTCPlus9,
             "UTC +8" => UTCTimeZone.UTCPlus8,
             "UTC +7" => UTCTimeZone.UTCPlus7,
             "UTC +6" => UTCTimeZone.UTCPlus6,

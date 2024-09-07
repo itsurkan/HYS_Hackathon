@@ -41,6 +41,11 @@ public class State
 
     }
 
+    public virtual Task Initialize()
+    {
+        return Task.CompletedTask;
+    }
+
     public virtual Task HandleAnswer(string answer)
     {
         if (_telegramBotContext == null)

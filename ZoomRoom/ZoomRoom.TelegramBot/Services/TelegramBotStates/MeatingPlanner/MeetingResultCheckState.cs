@@ -20,6 +20,11 @@ public class MeetingResultCheckState : State
 
         _telegramBotContext!.MeetingFormIsFilled = true;
 
+
+    }
+
+    public override async Task Initialize()
+    {
         Room room = _telegramBotContext!.roomService!.GetRoomByIdAsync(_telegramBotContext!.meetingData.RoomId).Result;
 
         textMessage = "Перевірте правильність введених даних:\n" +
@@ -31,10 +36,9 @@ public class MeetingResultCheckState : State
             $"Кімната: {room.Name}\n" +
             "Все вірно?";
 
-        _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
+        await _telegramBotContext!.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, textMessage, replyMarkup: keyboardMarkup);
 
     }
-
 
 
     public override async Task HandleAnswer(string answer)

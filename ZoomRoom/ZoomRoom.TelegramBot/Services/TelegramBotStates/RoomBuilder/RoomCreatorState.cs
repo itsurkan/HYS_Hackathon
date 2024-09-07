@@ -16,21 +16,23 @@ public class RoomCreatorState : State
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("До головного меню", "Спланувати зустріч");
         textMessage = "Введіть назву нової кімнати:";
-
-
-        CreateRoom();
     }
 
-    private void CreateRoom()
+    public override async Task Initialize()
+    {
+        await CreateRoom();
+    }
+
+    private async Task CreateRoom()
     {
         //TODO: Create room;
         _telegramBotContext.roomData.Password = Guid.NewGuid().ToString().Substring(0, 8);
 
-        _telegramBotContext.roomService.CreateRoomAsync(_telegramBotContext.roomData);
+        await _telegramBotContext.roomService.CreateRoomAsync(_telegramBotContext.roomData);
 
 
-        _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната створена!");
-        _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId,
+        await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната створена!");
+        await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId,
             $"Назва кімнати: {_telegramBotContext.roomData.Name}\n" +
             $"Пароль: {_telegramBotContext.roomData.Password}\n" +
             $"Ви можете використовувати ці дані для входу у кімнату"

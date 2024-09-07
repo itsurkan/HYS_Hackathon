@@ -17,7 +17,7 @@ public class AddUsersState : State
         keyboardMarkup =  new ReplyKeyboardMarkup(true).AddButtons("Назад");
     }
 
-    public override Task HandleAnswer(string answer)
+    public async override Task HandleAnswer(string answer)
     {
         if (_telegramBotContext is not null)
         {
@@ -27,14 +27,14 @@ public class AddUsersState : State
                     _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
                     break;
                 default:
-                    AddUsers(answer);
+                    await AddUsers(answer);
                     break;
             }
         }
-        return Task.CompletedTask;
+        return;
     }
 
-    private async void AddUsers(string answer)
+    private async Task AddUsers(string answer)
     {
         string[] users = answer.Split(',');
         foreach (string user in users)
@@ -45,7 +45,7 @@ public class AddUsersState : State
 
             await _telegramBotContext!.userService.CreateUserAsync(newUser);
         }
-        _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувачі додані!");
+        await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувачі додані!");
 
         _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
     }

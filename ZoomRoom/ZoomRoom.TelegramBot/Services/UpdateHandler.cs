@@ -23,6 +23,7 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
         long chatId = callbackQuery.From.Id;
 
         chatStates[chatId].state.HandleCallbackQuery(callbackQuery);
+        await chatStates[chatId].state.Initialize();
     }
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -72,7 +73,7 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
 
         var state =  chatStates[chatId].state;
         await state.HandleAnswer(update.Message?.Text);
-
+        await state.Initialize();
 
             // Message recievedMessage = await botClient.SendTextMessageAsync(chatId,
             //                             chatStates[chatId].state.textMessage,

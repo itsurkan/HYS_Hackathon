@@ -15,17 +15,21 @@ public class RoomManagerState : State
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
 
-        _telegramBotContext.botClient.SendTextMessageAsync(
+
+    }
+
+    public override async Task Initialize()
+    {
+        await _telegramBotContext.botClient.SendTextMessageAsync(
             chatId: _telegramBotContext.chatId,
             text: "Оберіть кімнату:"
         );
 
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
-        List<Room> rooms = telegramBotContext.roomService.GetAllRoomsAsync().Result.SelectMany(u => u.RoomUsers)
+        List<Room> rooms = _telegramBotContext.roomService.GetAllRoomsAsync().Result.SelectMany(u => u.RoomUsers)
                     .Select(ru => ru.Room)
                     .ToList();
         foreach (Room room in rooms) inlineKeyboard.AddButtons(room.Name);
-
     }
 
     public override Task HandleAnswer(string answer)

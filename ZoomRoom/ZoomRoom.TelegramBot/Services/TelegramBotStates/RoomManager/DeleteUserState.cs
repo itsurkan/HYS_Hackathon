@@ -42,11 +42,11 @@ public class DeleteUserState : State
         if (user is not null)
         {
             await _telegramBotContext.userService.DeleteUserAsync(user.Id);
-            _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувач видалений!");
+            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувач видалений!");
         }
         else
         {
-            _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувача з таким логіном не існує!");
+            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувача з таким логіном не існує!");
         }
         _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
     }

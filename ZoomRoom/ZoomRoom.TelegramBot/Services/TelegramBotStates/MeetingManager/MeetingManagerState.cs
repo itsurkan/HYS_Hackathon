@@ -16,16 +16,21 @@ public class MeetingManagerState : State
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
         _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для редагування:");
 
+
+    }
+
+    public async override Task Initialize()
+    {
         InlineKeyboardMarkup button = new InlineKeyboardMarkup();
 
-        List<Room> rooms = telegramBotContext.userService
-            .GetUserByIdAsync(_telegramBotContext.chatId)
-            .Result
+        List<Task<Room>> roomTasks = (await _telegramBotContext.userService.GetUserByIdAsync(_telegramBotContext.chatId))            
             .RoomUsers
-            .Select(ru => _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id).Result)
+            .Select(async ru => await _telegramBotContext.roomService.GetRoomByIdAsync(ru.Id))
             .ToList();
+        
+        List<Room> rooms = (await Task.WhenAll(roomTasks)).ToList();
 
-        List<Meeting> meetings = telegramBotContext.meetingService.GetAllMeetingsAsync().Result;
+        List<Meeting> meetings = await _telegramBotContext.meetingService.GetAllMeetingsAsync();
 
         List<Meeting> finalMeetings = meetings
             .Where(m => rooms.Any(r => m.RoomId == r.Id))
@@ -40,8 +45,7 @@ public class MeetingManagerState : State
                 $"meeting.ScheduledTime \n" +
                 $" {meetingStatus}"
                 );
-        }
-    }
+        }    }
 
     public override Task HandleAnswer(string answer)
     {

@@ -17,9 +17,14 @@ public class MeetingRoomState : State
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
         textMessage = "Оберіть кімнату для зустрічі:";
 
-        if (telegramBotContext.botClient is not null)
+
+    }
+
+    public override async Task Initialize()
+    {
+        if (_telegramBotContext.botClient is not null)
         {
-            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsAsync().GetAwaiter().GetResult().SelectMany(u => u.RoomUsers)
+            List<Room> rooms = (await _telegramBotContext.roomService.GetAllRoomsAsync()).SelectMany(u => u.RoomUsers)
                     .Select(ru => ru.Room)
                     .ToList();
 
@@ -29,15 +34,13 @@ public class MeetingRoomState : State
                 inlineKeyboard.AddButtons(room.Name);
             }
 
-            _telegramBotContext!.botClient!.SendTextMessageAsync(
+            await _telegramBotContext!.botClient!.SendTextMessageAsync(
                 chatId: _telegramBotContext.chatId,
                 text: "Оберіть кімнату для зустрічі:",
                 replyMarkup: inlineKeyboard
             );
         }
-
     }
-
 
     public override async Task HandleAnswer(string answer)
     {
