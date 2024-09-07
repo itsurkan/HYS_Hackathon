@@ -9,5 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ZoomRoom.Services\ZoomRoom.Services.csproj" />
   </ItemGroup>
 </Project>

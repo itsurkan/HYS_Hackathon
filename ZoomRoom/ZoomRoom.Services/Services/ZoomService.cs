@@ -7,10 +7,11 @@ using ZoomRoom.Domain.Responses;
 using ZoomRoom.Services.Interfaces;
 
 namespace ZoomRoom.Services.Services;
-public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
+
+public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService, IDisposable
 {
-    public ZoomSettings ZoomSettings { get; } = zoomSettings.Value;
-    private readonly HttpClient _httpClient = new HttpClient();
+    private ZoomSettings ZoomSettings { get; } = zoomSettings.Value;
+    private readonly HttpClient _httpClient = new ();
 
 
     public async Task<string> GetAccessTokenAsync()
@@ -49,6 +50,7 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
         var meetingResponse = JsonConvert.DeserializeObject<MeetingResponse>(content);
         return meetingResponse;
     }
+
 
     public async Task<List<MeetingResponse>> GetUpcomingMeetingsAsync(string accessToken)
     {
@@ -92,13 +94,13 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
         };
 
 
-
         request.Content = new StringContent(JsonConvert.SerializeObject(meetingDetails), Encoding.UTF8, "application/json");
 
         var response = await _httpClient.SendAsync(request);
         return response.IsSuccessStatusCode;
     }
-    public async Task<bool> StartMeetingAsync(string accessToken, string meetingId)
+
+    public async Task<bool> StartMeetingAsync(string accessToken, long meetingId)
     {
         var request = new HttpRequestMessage(HttpMethod.Patch, $"https://api.zoom.us/v2/meetings/{meetingId}/status");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -112,5 +114,10 @@ public class ZoomService(IOptions<ZoomSettings> zoomSettings) : IZoomService
 
         var response = await _httpClient.SendAsync(request);
         return response.IsSuccessStatusCode;
+    }
+
+    public void Dispose()
+    {
+        _httpClient.Dispose();
     }
 }

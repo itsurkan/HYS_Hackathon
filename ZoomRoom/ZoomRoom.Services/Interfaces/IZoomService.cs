@@ -7,6 +7,7 @@ namespace ZoomRoom.Services.Interfaces
     {
         Task<string> GetAccessTokenAsync();
         Task<MeetingResponse?> CreateMeetingAsync(string accessToken, MeetingBodyRequest request);
+        Task<bool> StartMeetingAsync(string accessToken, long meetingId);
         Task<List<MeetingResponse>> GetUpcomingMeetingsAsync(string accessToken);
         Task<bool> DeleteMeetingAsync(string accessToken, string meetingId);
         Task<bool> UpdateMeetingAsync(string accessToken, string meetingId, MeetingBodyRequest requestBody);
