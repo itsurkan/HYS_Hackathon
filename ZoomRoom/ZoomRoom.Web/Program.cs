@@ -1,5 +1,4 @@
 using MudBlazor.Services;
-using ZoomRoom.Services;
 using ZoomRoom.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +6,40 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<WeatherForecastService>();
+builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
-builder.Services.AddPersistenceServices();
+
+
+//builder.Services.AddSingleton<IZoomService, ZoomService>();
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<RoomService>();
+builder.Services.AddTransient<MeetingService>();
+
+builder.Services.AddDbContext<SqliteDbContext>();
+
+
+// Add telegram related services
+builder.Services.Configure<BotSettings>(builder.Configuration.GetSection("BotSettings"));
+
+
+//TODO: Resolve this issue
+builder.Services.AddScoped<IUpdateHandler, UpdateHandler>();
+builder.Services.AddTransient<IReceiverService, ReceiverService>();
+builder.Services.AddHostedService<PollingService>();
+
+builder.Services.AddHttpClient("telegram_bot_client").RemoveAllLoggers().AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
+    {
+        BotSettings? botSettings = sp.GetService<IOptions<BotSettings>>()?.Value;
+
+        if (botSettings is null)
+        {
+            throw new InvalidOperationException("Bot settings not found");
+        }
+
+        TelegramBotClientOptions options = new(botSettings.BotToken);
+        return new TelegramBotClient(options, httpClient);
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

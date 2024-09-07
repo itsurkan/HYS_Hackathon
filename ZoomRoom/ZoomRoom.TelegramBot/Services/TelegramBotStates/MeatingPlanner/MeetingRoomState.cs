@@ -2,49 +2,76 @@ using System;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using ZoomRoom.Persistence;
+using ZoomRoom.Persistence.Models;
 
 namespace Telegrambot.Services.TelegramBotStates.MeatingPlanner;
 
 public class MeetingRoomState : State
 {
+    bool skipMessageHandling = false;
+
     public MeetingRoomState(TelegramBotContext telegramBotContext) :
         base(telegramBotContext)
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButton("Назад");
         textMessage = "Оберіть кімнату для зустрічі:";
+
+        if (telegramBotContext.botClient is not null)
+        {
+            List<Room> rooms = telegramBotContext.roomService.GetAllRoomsAsync().Result.SelectMany(u => u.RoomUsers)
+                    .Select(ru => ru.Room)
+                    .ToList();
+
+            InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
+            foreach (Room room in rooms)
+            {
+                inlineKeyboard.AddButtons(room.Name);
+            }
+
+            _telegramBotContext!.botClient!.SendTextMessageAsync(
+                chatId: _telegramBotContext.chatId,
+                text: "Оберіть кімнату для зустрічі:",
+                replyMarkup: inlineKeyboard
+            );
+        }
+
     }
 
-    public  void CheckAccess(string room)
-    {
-
-    }
 
     public override async void HandleAnswer(string answer)
     {
-        if (_telegramBotContext == null) throw new ArgumentNullException(nameof(_telegramBotContext));
+        if (skipMessageHandling) return;
 
-        if (answer == "Назад")
+        if (_telegramBotContext is not null)
         {
-            _telegramBotContext.state = new MeetingTimezoneState(_telegramBotContext);
-        }
-
-        if (answer is null || answer == "")
-        {
-            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната для зустрічі не може бути пустою");
-            _telegramBotContext.state = new MeetingRoomState(_telegramBotContext);
-        }
-        else
-        {
-            CheckAccess(answer);
-
-            _telegramBotContext.meetingData.Room = answer;
-            _telegramBotContext.state = new MeetingDateState(_telegramBotContext);
+            if (string.IsNullOrEmpty(answer))
+            {
+                await _telegramBotContext.botClient!.SendTextMessageAsync(_telegramBotContext.chatId, "Кімната для зустрічі не може бути пустою");
+                _telegramBotContext.state = new MeetingRoomState(_telegramBotContext);
+            }
+            else if (answer == "Назад")
+            {
+                _telegramBotContext.state = new MeetingCreatorState(_telegramBotContext);
+                return;
+            }
         }
     }
 
     public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
     {
-        await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, 
-                                        "debug");
+
+        if (_telegramBotContext is not null)
+        {
+            List<Room> rooms = _telegramBotContext.roomService.GetAllRoomsAsync().Result.SelectMany(u => u.RoomUsers)
+                    .Select(ru => ru.Room)
+                    .ToList();
+
+            _telegramBotContext!.meetingData.RoomId = rooms.FirstOrDefault(r => r.Name == callbackQuery.Data).Id;
+            _telegramBotContext.state = new MeetingDateState(_telegramBotContext);
+
+            skipMessageHandling = true;
+            await _telegramBotContext.botClient!.AnswerCallbackQueryAsync(callbackQuery.Id);
+        }
     }
 }

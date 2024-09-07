@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ZoomRoom.Services\ZoomRoom.Services.csproj" />
+    <ProjectReference Include="..\ZoomRoom.TelegramBot\ZoomRoom.TelegramBot.csproj" />
   </ItemGroup>
 
 </Project>

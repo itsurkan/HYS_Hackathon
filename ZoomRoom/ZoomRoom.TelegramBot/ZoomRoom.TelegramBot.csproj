@@ -13,5 +13,11 @@
     <PackageReference Include="Telegram.Bot" Version="21.10.0" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <ProjectReference Include="..\ZoomRoom.Persistence\ZoomRoom.Persistence.csproj" />
+    <ProjectReference Include="..\ZoomRoom.Services\ZoomRoom.Services.csproj" />
+  </ItemGroup>
+
 
 </Project>
