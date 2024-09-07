@@ -34,6 +34,7 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
             {
                 await HandleCallbackQuery(botClient, update.CallbackQuery!, cancellationToken);
             }
+
             return;
         }
 
@@ -59,8 +60,12 @@ public class UpdateHandler(IMeetingService meetingService, IRoomService roomServ
 
         if (!chatStates.ContainsKey(chatId))
         {
-            chatStates[chatId] = new TelegramBotContext(botClient, chatId,
-            userService, roomService,meetingService
+            chatStates[chatId] = new TelegramBotContext(
+                botClient,
+                chatId,
+                userService,
+                roomService,
+                meetingService
             );
         }
 

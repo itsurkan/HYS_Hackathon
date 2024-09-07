@@ -29,7 +29,7 @@ IHost host = Host.CreateDefaultBuilder(args)
                 TelegramBotClientOptions options = new(botConfiguration.BotToken);
                 return new TelegramBotClient(options, httpClient);
             });
-        services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=../db/ZoomRoom.db"));
+        services.AddDbContext<SqliteDbContext>(options => options.UseSqlite("Data Source=../../../db/ZoomRoom.db"));
         services.AddScoped<IUpdateHandler, UpdateHandler>();
         services.AddHostedService<PollingService>();
         services.AddScoped<IReceiverService, ReceiverService>();
