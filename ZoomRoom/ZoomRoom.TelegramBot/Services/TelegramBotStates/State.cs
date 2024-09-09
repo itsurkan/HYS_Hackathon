@@ -37,7 +37,7 @@ public class State
         return Task.CompletedTask;
     }
 
-    public virtual void HandleCallbackQuery(CallbackQuery callbackQuery)
+    public virtual Task HandleCallbackQuery(CallbackQuery callbackQuery)
     {
         throw new NotImplementedException("Not callback query handler is called!!");
     }

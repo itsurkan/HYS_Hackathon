@@ -1,6 +1,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using ZoomRoom.Persistence.Models;
+using User = ZoomRoom.Persistence.Models.User;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomManager;
 
@@ -19,7 +20,7 @@ public class AddUsersState(TelegramBotContext telegramBotContext) : State(telegr
         switch (answer)
         {
             case "Назад":
-                _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+                _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Id);
                 await _telegramBotContext.state.Initialize();
                 break;
             default:
@@ -49,7 +50,7 @@ public class AddUsersState(TelegramBotContext telegramBotContext) : State(telegr
 
         await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувачі додані!");
 
-        _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+        _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Id);
         await _telegramBotContext.state.Initialize();
     }
 }

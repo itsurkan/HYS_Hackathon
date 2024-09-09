@@ -51,7 +51,8 @@ public class MeetingManagerState(TelegramBotContext telegramBotContext) : State(
         }
     }
 
-    public override void HandleCallbackQuery(CallbackQuery callbackQuery)
+    public override Task HandleCallbackQuery(CallbackQuery callbackQuery)
     {
+        return Task.CompletedTask;
     }
 }

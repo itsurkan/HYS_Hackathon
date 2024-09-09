@@ -49,7 +49,7 @@ public class MeetingRoomState(TelegramBotContext telegramBotContext) : State(tel
         }
     }
 
-    public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
+    public override async Task HandleCallbackQuery(CallbackQuery callbackQuery)
     {
         var rooms = await _telegramBotContext.roomService.GetAllRoomsAsync();
 

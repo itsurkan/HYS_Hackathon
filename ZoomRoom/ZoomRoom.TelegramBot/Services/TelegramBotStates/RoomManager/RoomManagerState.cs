@@ -1,3 +1,4 @@
+using System.Globalization;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,7 +15,19 @@ public class RoomManagerState(TelegramBotContext telegramBotContext) : State(tel
         var inlineKeyboard = new InlineKeyboardMarkup();
         var rooms = await _telegramBotContext.roomService.GetAllRoomsAsync();
 
-        foreach (Room room in rooms) inlineKeyboard.AddButtons(room.Name);
+        if (!rooms.Any())
+        {
+            await _telegramBotContext.botClient.SendTextMessageAsync(
+                chatId: _telegramBotContext.chatId,
+                text: "Немає кімнат"
+            );
+            _telegramBotContext.Init(_telegramBotContext.botClient, _telegramBotContext.chatId);
+            return;
+        }
+        var inlineKeyboardButtons = rooms.Select(room =>
+            InlineKeyboardButton.WithCallbackData(room.Name, room.Id.ToString(CultureInfo.InvariantCulture))
+        ).ToArray();
+         inlineKeyboard.AddButtons(inlineKeyboardButtons);
 
         await _telegramBotContext.botClient.SendTextMessageAsync(
             chatId: _telegramBotContext.chatId,
@@ -37,9 +50,9 @@ public class RoomManagerState(TelegramBotContext telegramBotContext) : State(tel
             }
     }
 
-    public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
+    public override async Task HandleCallbackQuery(CallbackQuery callbackQuery)
     {
-        _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, callbackQuery.Data);
+        _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, long.Parse(callbackQuery.Data));
         await _telegramBotContext.state.Initialize();
     }
 }

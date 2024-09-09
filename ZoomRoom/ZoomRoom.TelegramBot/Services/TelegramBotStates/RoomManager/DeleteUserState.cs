@@ -1,4 +1,5 @@
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomManager;
@@ -17,7 +18,7 @@ public class DeleteUserState(TelegramBotContext telegramBotContext) : State(tele
             switch (answer)
             {
                 case "Назад":
-                    _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+                    _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Id);
                     await _telegramBotContext.state.Initialize();
                     break;
                 default:
@@ -32,7 +33,7 @@ public class DeleteUserState(TelegramBotContext telegramBotContext) : State(tele
                     {
                         await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Користувача з таким логіном не існує!");
                     }
-                    _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Name);
+                    _telegramBotContext.state = new RoomOptionsState(_telegramBotContext, _telegramBotContext.roomData.Id);
                     await _telegramBotContext.state.Initialize();
                     break;
         }

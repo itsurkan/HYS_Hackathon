@@ -21,9 +21,8 @@ public class UpdateHandler(IUserService userService, TelegramBotContext botConte
     private async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callbackQuery, CancellationToken cancellationToken)
     {
         var chatId = callbackQuery.From.Id;
-
-        chatStates[chatId].state.HandleCallbackQuery(callbackQuery);
-        await chatStates[chatId].state.Initialize();
+        var state = chatStates[chatId].state;
+        state.HandleCallbackQuery(callbackQuery);
     }
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -45,6 +44,8 @@ public class UpdateHandler(IUserService userService, TelegramBotContext botConte
             if (update.Message.Text == "/start")
             {
                 await AddUserIfNotExists(update, chatId);
+                botContext.Init(botClient, chatId);
+                return;
             }
 
             if (!chatStates.TryGetValue(chatId, out TelegramBotContext? value))

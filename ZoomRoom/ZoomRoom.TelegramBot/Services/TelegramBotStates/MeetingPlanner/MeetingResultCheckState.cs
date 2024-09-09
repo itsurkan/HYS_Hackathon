@@ -1,5 +1,6 @@
 using System.Globalization;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using ZoomRoom.Domain.Requests;
 using ZoomRoom.Domain.Responses;
@@ -55,6 +56,11 @@ public class MeetingResultCheckState(TelegramBotContext telegramBotContext) : St
         }
         await _telegramBotContext.state.Initialize();
 
+    }
+
+    public override Task HandleCallbackQuery(CallbackQuery callbackQuery)
+    {
+        return base.HandleCallbackQuery(callbackQuery);
     }
 
     private async Task GreateMeeting()

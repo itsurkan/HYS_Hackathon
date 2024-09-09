@@ -47,7 +47,7 @@ public class MeetingTimezoneState(TelegramBotContext telegramBotContext) : State
         await _telegramBotContext.state.Initialize();
     }
 
-    public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
+    public override async Task HandleCallbackQuery(CallbackQuery callbackQuery)
     {
         var uTCTimeZone = callbackQuery.Data switch
         {

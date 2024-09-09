@@ -13,7 +13,7 @@ public class MainMenu : State
         base(telegramBotContext)
     {
 
-        textMessage = "Вітаємо в ZoomRoom! Що бажаєте зробити?";
+        textMessage = "Що бажаєте зробити?";
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Створити кімнату", "Спланувати зустріч").
             AddNewRow().AddButtons("Управління кімнатами", "Управління зустрічами")
             .AddNewRow().AddButtons("Видалити зустріч");

@@ -1,4 +1,5 @@
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.RoomBuilder;
@@ -38,5 +39,10 @@ public class RoomNameState(TelegramBotContext telegramBotContext) : State(telegr
 
 
         }
+    }
+
+    public override Task HandleCallbackQuery(CallbackQuery callbackQuery)
+    {
+        return base.HandleCallbackQuery(callbackQuery);
     }
 }

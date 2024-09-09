@@ -11,11 +11,20 @@ public class MeetingDeleteState(TelegramBotContext telegramBotContext) : State(t
     public async override Task Initialize()
     {
         keyboardMarkup = new ReplyKeyboardMarkup(true).AddButtons("Назад");
-        await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для видалення:");
 
         InlineKeyboardMarkup button = new InlineKeyboardMarkup();
 
         List<Meeting> meetings = await _telegramBotContext.meetingService.GetAllMeetingsAsync();
+
+        if (!meetings.Any())
+        {
+            await _telegramBotContext.botClient.SendTextMessageAsync(
+                chatId: _telegramBotContext.chatId,
+                text: "Немає мітингів"
+            );
+            _telegramBotContext.Init(_telegramBotContext.botClient, _telegramBotContext.chatId);
+            return;
+        }
 
         List<Meeting> finalMeetings = meetings
             .ToList();
@@ -24,7 +33,7 @@ public class MeetingDeleteState(TelegramBotContext telegramBotContext) : State(t
         {
 
             button.AddButtons($"{meeting.Title}");
-            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Доступні мітинги",  replyMarkup: button);
+            await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Оберіть зустріч для видалення:",  replyMarkup: button);
         }
     }
 
@@ -45,7 +54,7 @@ public class MeetingDeleteState(TelegramBotContext telegramBotContext) : State(t
         }
     }
 
-    public override async void HandleCallbackQuery(CallbackQuery callbackQuery)
+    public override async Task HandleCallbackQuery(CallbackQuery callbackQuery)
     {
         await _telegramBotContext.meetingService.DeleteMeetingAsync(callbackQuery.Data);
         await _telegramBotContext.botClient.SendTextMessageAsync(_telegramBotContext.chatId, "Мітинг видалено");

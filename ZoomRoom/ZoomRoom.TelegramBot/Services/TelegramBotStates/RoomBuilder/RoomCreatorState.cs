@@ -1,4 +1,5 @@
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
 
@@ -46,5 +47,10 @@ public class RoomCreatorState(TelegramBotContext telegramBotContext) : State(tel
                 _telegramBotContext.state = this;
                 break;
         }
+    }
+
+    public override Task HandleCallbackQuery(CallbackQuery callbackQuery)
+    {
+        return base.HandleCallbackQuery(callbackQuery);
     }
 }

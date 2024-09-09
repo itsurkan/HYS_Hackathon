@@ -1,4 +1,5 @@
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ZoomRoom.TelegramBot.Services.TelegramBotStates.MeetingPlanner;
@@ -49,5 +50,10 @@ public class MeetingDurationState(TelegramBotContext telegramBotContext) : State
             _telegramBotContext.state = new MeetingDurationState(_telegramBotContext);
             await _telegramBotContext.state.Initialize();
         }
+    }
+
+    public override Task HandleCallbackQuery(CallbackQuery callbackQuery)
+    {
+        return base.HandleCallbackQuery(callbackQuery);
     }
 }
